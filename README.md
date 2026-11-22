@@ -56,3 +56,7 @@ nix fmt                       # Format Nix files
 - `name` matches the directory name, is 1–64 characters long, and matches `^[a-z0-9]+(-[a-z0-9]+)*$`.
 - `description` is non-empty and at most 1024 characters.
 - Relative Markdown links in the body resolve inside the skill directory and point to existing files.
+
+## Included Skills
+
+- [`atomic-conventional-c4-commits`](skills/atomic-conventional-c4-commits/SKILL.md) — Decompose diffs into minimal, bisectable patches formatted with Conventional Commits v1.0.0 and ZeroMQ C4 discipline.
