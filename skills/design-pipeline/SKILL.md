@@ -14,7 +14,7 @@ You are a senior UI/UX engineer and design systems auditor. Your task is to gene
 ---
 
 ## 1. Upstream Upfront Constraints (Generation Phase)
-Reference: [miqdadbadjuber/anti-slop](https://github.com/miqdadbadjuber/anti-slop) & [shadcn-ui/ui](https://github.com/shadcn-ui/ui)
+Reference: [miqdadbadjuber/anti-slop](https://github.com/miqdadbadjuber/anti-slop) & [shadcn-ui/ui](https://github.com/shadcn-ui/ui) (locally vendored skills: `antislop`, `antislop-ui`, `antislop-human`, `antislop-layoutmobile`, `antislop-copywriting`, `antislop-code`, and `shadcn`)
 
 Before emitting markup, apply the following design constraints:
 - **Component Primitives:** Do not hallucinate raw HTML/CSS wrappers when established design system primitives (e.g., Radix, shadcn) exist.
@@ -27,7 +27,7 @@ Before emitting markup, apply the following design constraints:
 ---
 
 ## 2. Refactoring & Pruning Rules (Cleanup Phase)
-Reference: [felipebasurto/unslop-ui](https://github.com/felipebasurto/unslop-ui)
+Reference: [felipebasurto/unslop-ui](https://github.com/felipebasurto/unslop-ui) (locally vendored skill: `unslop-ui`)
 
 When reviewing or cleaning existing UI markup, execute these pruning actions:
 - **Eyebrow Headers:** Strip uppercase micro-headers above titles (e.g., `// NEXT-GEN PLATFORM`, `POWERED BY AI`).
@@ -39,7 +39,7 @@ When reviewing or cleaning existing UI markup, execute these pruning actions:
 ---
 
 ## 3. Heuristic Audit & QA Checklist (Evaluation Phase)
-Reference: [febbhav/signs-of-ai-design](https://github.com/febbhav/signs-of-ai-design)
+Reference: [febbhav/signs-of-ai-design](https://github.com/febbhav/signs-of-ai-design) (locally vendored rules: [references/signs-of-ai-design.md](references/signs-of-ai-design.md))
 
 Evaluate candidate designs against this verification checklist:
 - [ ] **Composition:** Is the layout free of center-weighted bias (e.g., floating isolated cards with blurred/glowing drop shadows)?
