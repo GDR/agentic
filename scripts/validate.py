@@ -9,8 +9,11 @@ from pathlib import Path
 
 NAME_RE = re.compile(r"\A[a-z0-9]+(-[a-z0-9]+)*\Z")
 TOP_KEY_RE = re.compile(r"^([A-Za-z0-9_-]+)\s*:\s*(.*)$")
+FRONTMATTER_DELIM_RE = re.compile(r"^---[ \t]*$")
+BLOCK_HEADER_RE = re.compile(r"^([>|])(?:([+-])([1-9])?|([1-9])([+-])?)?$")
 FENCE_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
+ASCII_PUNCT_ESCAPE_RE = re.compile(r'\\([!"#$%&\'()*+,\-./:;<=>?@[\\\]^_`{|}~])')
 
 
 def _strip_inline_comment(val: str) -> str:
@@ -136,12 +139,12 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
         raise ValueError("Unexpected UTF-8 BOM; save SKILL.md as UTF-8 without BOM")
 
     lines = text.splitlines()
-    if not lines or lines[0].strip() != "---":
+    if not lines or not FRONTMATTER_DELIM_RE.match(lines[0]):
         raise ValueError("Missing opening '---' YAML frontmatter delimiter on line 1")
 
     end_idx = None
     for idx in range(1, len(lines)):
-        if lines[idx].strip() == "---":
+        if FRONTMATTER_DELIM_RE.match(lines[idx]):
             end_idx = idx
             break
     if end_idx is None:
@@ -173,10 +176,12 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
             continue
 
         rest = _strip_inline_comment(raw_rest)
-        if rest in (">", ">-", "|", "|-"):
-            style = rest[0]
+        block_match = BLOCK_HEADER_RE.match(rest)
+        if block_match:
+            style = block_match.group(1)
+            explicit_digit = block_match.group(3) or block_match.group(4)
+            indent: int | None = int(explicit_digit) if explicit_digit else None
             block_lines: list[str] = []
-            indent: int | None = None
             i += 1
             while i < len(fm_lines):
                 blk = fm_lines[i]
@@ -185,11 +190,14 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
                     i += 1
                     continue
                 leading = len(blk) - len(blk.lstrip(" "))
-                if leading == 0:
+                if indent is not None:
+                    if leading < indent:
+                        break
+                elif leading == 0:
                     break
-                if indent is None:
+                else:
                     indent = leading
-                block_lines.append(blk[min(indent, leading) :] if leading >= indent else blk.lstrip(" "))
+                block_lines.append(blk[indent:] if leading >= indent else blk.lstrip(" "))
                 i += 1
             # Trim trailing empty lines from block scalar
             while block_lines and block_lines[-1] == "":
@@ -199,6 +207,8 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
             else:
                 data[key] = "\n".join(block_lines).strip()
             continue
+        if rest.startswith((">", "|")):
+            raise ValueError(f"Invalid block scalar header on line {i + 2}: {rest!r}")
 
         if rest == "":
             # Nested mapping or list (e.g., metadata:); consume indented lines cleanly
@@ -249,6 +259,11 @@ def _strip_inline_code(line: str) -> str:
     i = 0
     n = len(line)
     while i < n:
+        # Outside inline code, backslash escapes backticks/backslashes per CommonMark
+        if line[i] == "\\" and i + 1 < n:
+            out.append(line[i : i + 2])
+            i += 2
+            continue
         if line[i] != "`":
             out.append(line[i])
             i += 1
@@ -278,8 +293,13 @@ def _strip_inline_code(line: str) -> str:
     return "".join(out)
 
 
+def _unescape_link_target(target: str) -> str:
+    """Unescape backslash-escaped ASCII punctuation in Markdown link destinations."""
+    return ASCII_PUNCT_ESCAPE_RE.sub(r"\1", target)
+
+
 def _extract_links_from_line(cleaned: str) -> list[str]:
-    """Extract markdown link destinations supporting <...> and balanced parentheses."""
+    """Extract markdown link destinations supporting nested brackets, <...>, and balanced parens."""
     targets: list[str] = []
     i = 0
     n = len(cleaned)
@@ -288,12 +308,17 @@ def _extract_links_from_line(cleaned: str) -> list[str]:
             i += 1
             continue
         j = i + 1
+        bracket_depth = 1
         while j < n:
             if cleaned[j] == "\\" and j + 1 < n:
                 j += 2
                 continue
-            if cleaned[j] == "]":
-                break
+            if cleaned[j] == "[":
+                bracket_depth += 1
+            elif cleaned[j] == "]":
+                bracket_depth -= 1
+                if bracket_depth == 0:
+                    break
             j += 1
         if j >= n or j + 1 >= n or cleaned[j + 1] != "(":
             i += 1
@@ -303,7 +328,7 @@ def _extract_links_from_line(cleaned: str) -> list[str]:
         while pos < n and cleaned[pos].isspace():
             pos += 1
         if pos >= n:
-            i = j + 2
+            i += 1
             continue
 
         target = ""
@@ -382,11 +407,14 @@ def _extract_links_from_line(cleaned: str) -> list[str]:
                 pos += 1
 
         if valid:
+            label_inner = cleaned[i + 1 : j]
+            if "[" in label_inner:
+                targets.extend(_extract_links_from_line(label_inner))
             if target:
-                targets.append(target)
+                targets.append(_unescape_link_target(target))
             i = pos
         else:
-            i = j + 2
+            i += 1
     return targets
 
 
