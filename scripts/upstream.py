@@ -29,6 +29,10 @@ IGNORED_FILE_NAMES = {".DS_Store"}
 class UpstreamError(Exception):
     """Raised when manifest validation, integrity checks, or sync fails."""
 
+    def __init__(self, message: str, *, http_status: int | None = None) -> None:
+        super().__init__(message)
+        self.http_status = http_status
+
 
 @dataclass(frozen=True)
 class MappingRule:
@@ -194,27 +198,80 @@ def matches_exclude(rel_to_mapping: str, patterns: list[str]) -> bool:
 
 
 def http_get_bytes(url: str) -> bytes:
-    req = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": "agentic-upstream/1.0",
-            "Accept": "application/vnd.github+json",
-        },
-    )
+    headers = {
+        "User-Agent": "agentic-upstream/1.0",
+        "Accept": "application/vnd.github+json",
+    }
+    # Only send GitHub tokens to api.github.com so credentials never leak on raw/third-party hosts.
+    if urllib.parse.urlsplit(url).hostname == "api.github.com":
+        token = (os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN") or "").strip()
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+
+    req = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             return resp.read()
     except urllib.error.HTTPError as exc:
         body = exc.read(512).decode("utf-8", errors="replace").strip()
-        raise UpstreamError(f"HTTP {exc.code} fetching {url}: {body}") from exc
+        raise UpstreamError(f"HTTP {exc.code} fetching {url}: {body}", http_status=exc.code) from exc
     except urllib.error.URLError as exc:
         raise UpstreamError(f"Network error fetching {url}: {exc.reason}") from exc
+
+
+def fetch_tree_blobs_via_git(repo: str, rev: str) -> dict[str, tuple[str, str]]:
+    """Fetch pinned commit tree via partial git fetch when REST API is rate-limited."""
+    remote_url = f"https://github.com/{repo}.git"
+    env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+    with tempfile.TemporaryDirectory(prefix="agentic-tree-") as tmpdir:
+        try:
+            subprocess.run(
+                ["git", "-C", tmpdir, "init", "-q", "--bare"],
+                check=True,
+                capture_output=True,
+                timeout=20,
+                env=env,
+            )
+            subprocess.run(
+                ["git", "-C", tmpdir, "fetch", "-q", "--depth=1", "--filter=blob:none", remote_url, rev],
+                check=True,
+                capture_output=True,
+                timeout=60,
+                env=env,
+            )
+            res = subprocess.run(
+                ["git", "-C", tmpdir, "ls-tree", "-r", "-z", rev],
+                check=True,
+                capture_output=True,
+                timeout=30,
+                env=env,
+            )
+            out: dict[str, tuple[str, str]] = {}
+            for rec in res.stdout.split(b"\x00"):
+                if not rec:
+                    continue
+                meta_raw, path_raw = rec.split(b"\t", 1)
+                mode, etype, _oid = meta_raw.decode("ascii").split(" ", 2)
+                path = path_raw.decode("utf-8")
+                out[path] = (etype, mode)
+            return out
+        except (OSError, subprocess.SubprocessError, ValueError) as exc:
+            raise UpstreamError(f"git tree fallback failed for {repo}@{rev[:7]}: {exc}") from exc
 
 
 def fetch_tree_blobs(repo: str, rev: str) -> dict[str, tuple[str, str]]:
     """Return {repo_rel_path: (type, mode)} for tree at pinned commit rev."""
     url = f"https://api.github.com/repos/{repo}/git/trees/{rev}?recursive=1"
-    payload = json.loads(http_get_bytes(url).decode("utf-8"))
+    try:
+        payload = json.loads(http_get_bytes(url).decode("utf-8"))
+    except UpstreamError as exc:
+        if exc.http_status in (403, 429):
+            print(
+                f"Note: GitHub API returned HTTP {exc.http_status} for {repo}@{rev[:7]}; falling back to treeless git fetch",
+                file=sys.stderr,
+            )
+            return fetch_tree_blobs_via_git(repo, rev)
+        raise
     if payload.get("truncated"):
         raise UpstreamError(
             f"GitHub git tree response for {repo}@{rev[:7]} was truncated; aborting incomplete sync"
@@ -504,12 +561,11 @@ def cmd_sync(manifest_path: Path, root: Path, names: list[str], write_lock: bool
         spec = manifest["sources"][src_name]
         new_files = sync_source(src_name, spec, root, write_lock=write_lock)
         if write_lock:
+            # Flush each synced source incrementally so mid-batch failures never leave unhashed files.
             spec["files"] = new_files
+            normalize_manifest(manifest)
+            write_manifest_atomic(manifest_path, manifest)
         print(f"Synced {src_name} ({spec['repo']}@{spec['rev'][:7]}): {len(new_files)} files")
-
-    if write_lock:
-        normalize_manifest(manifest)
-        write_manifest_atomic(manifest_path, manifest)
 
     return cmd_verify(manifest_path, root)
 
