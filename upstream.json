@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "sources": {
+    "anti-slop": {
+      "repo": "miqdadbadjuber/anti-slop",
+      "rev": "7f6a03df2931c12cb244dc4ab14ee4866b0ac2ba",
+      "mappings": [
+        {
+          "from": "skills/antislop",
+          "to": "skills/antislop"
+        },
+        {
+          "from": "skills/antislop-ui",
+          "to": "skills/antislop-ui"
+        },
+        {
+          "from": "skills/antislop-human",
+          "to": "skills/antislop-human"
+        },
+        {
+          "from": "skills/antislop-layoutmobile",
+          "to": "skills/antislop-layoutmobile"
+        },
+        {
+          "from": "skills/antislop-copywriting",
+          "to": "skills/antislop-copywriting"
+        },
+        {
+          "from": "skills/antislop-code",
+          "to": "skills/antislop-code"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/antislop/LICENSE"
+        }
+      ],
+      "exclude": [],
+      "files": {
+        "skills/antislop-code/SKILL.md": "cac8f34af374f085900fd9b211a92fdfb387f63826571e1221cfb927fb31a5ca",
+        "skills/antislop-copywriting/SKILL.md": "568efd8c763ce95a6ea123288e80f9a1ffdf1883143c1fad6e546a45a17659fc",
+        "skills/antislop-human/LICENSE-web-quality-skills": "c122223ac43e86421958e18623979942c21b642951e2e3736dcb63eff13587c3",
+        "skills/antislop-human/SKILL.md": "6cdd6f26d4f77ed629abe269fc423863edd063347c38fa6ce990a77914c1d8e6",
+        "skills/antislop-human/contrast-check.py": "393e6433d120632aa11184792a16cd7b325924dbc9993477825d9aa67fdbfe6e",
+        "skills/antislop-human/contrast-mcp.py": "e2cf4b41da92d1e106d39e169ae335017dd059215bf58c894268481a6aa075e6",
+        "skills/antislop-human/references/A11Y-PATTERNS.md": "4cb6276a237fbe05616b53688075461732454365eb7674d732f7197dddb14fff",
+        "skills/antislop-human/references/WCAG.md": "409ac9e24007f09f3704f890585c880cdd66780e9f14274b1a0e0c4557672330",
+        "skills/antislop-layoutmobile/SKILL.md": "205c8e0785b4baa5ea53815526ff11e0225c53a4d8c97c3cfa29f2f58a1ed7ce",
+        "skills/antislop-ui/LICENSE-web-quality-skills": "c122223ac43e86421958e18623979942c21b642951e2e3736dcb63eff13587c3",
+        "skills/antislop-ui/SKILL.md": "31d2cafe672545cb21d67d2d609b0809854ca88705af05c3867db651bd67aa82",
+        "skills/antislop-ui/references/CORE-WEB-VITALS.md": "782bc99ba1fc68e25aabb396967468ec8cb7ea33cd681bccf4b7b04a679acf23",
+        "skills/antislop-ui/references/WEB-BASELINE.md": "f9a4c8d71a6e2ddf5ad0e46a11553eb188617c36f0bfb331e3d3930aecf772a2",
+        "skills/antislop/LICENSE": "9fd83fb1fda52ca0094b96e2ed5a3d6c42a81b95a6c6326553f5bbe570f443de",
+        "skills/antislop/SKILL.md": "2cbdc8c7b5acca92d9edf2406663502eb801f8abe62681f21ec97257e722c44b",
+        "skills/antislop/VERSION": "c651719e893b26156d0aa99ba8b9e0ed125a1a296d6553c2a54718bfc9ee6430"
+      }
+    },
+    "unslop-ui": {
+      "repo": "felipebasurto/unslop-ui",
+      "rev": "32279dec96ef20a4a0ac47a5b113e48dda6b3b6e",
+      "mappings": [
+        {
+          "from": "skills/unslop-ui",
+          "to": "skills/unslop-ui"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/unslop-ui/LICENSE"
+        }
+      ],
+      "exclude": [],
+      "files": {
+        "skills/unslop-ui/LICENSE": "ee0800c063ca6c7ee4a60f08b05715a3f6560bebbdfe271b6574b134cb41a1fa",
+        "skills/unslop-ui/SKILL.md": "4f1759251e263481887859db82fc2207d52843fd04e67c4a5182d9da4502091b",
+        "skills/unslop-ui/agents/openai.yaml": "7b198fe0074cf7ce4fc7a9ec47962ebb9ac09e1b06c0d40e288b0ed757477cec",
+        "skills/unslop-ui/references/examples.md": "66a2a4e5b27ff7050c06843b3c98e291b747e86e9a41dc386572a122b5b03e9d",
+        "skills/unslop-ui/references/taste-example.md": "3095c6283dab9222b77996a61548fc4b608d065b5f698a59e1040c71173ba9ed",
+        "skills/unslop-ui/references/tokens.md": "7354594b3136b89a30ee3fa2b74ef73f1cfb92eb4d1691f8f23ec5dc6fc45090",
+        "skills/unslop-ui/references/unslop-fallback.md": "bab98fbd8bd9c841d5e1991b89552aaa5a49a1730e0f5a65c2ebb92d9681e5e1",
+        "skills/unslop-ui/scripts/count_tells.py": "4a24fdc231b7d9b2464e0c74edf0f0b4e1b657f7e9a616f2882d69e055e1bd60",
+        "skills/unslop-ui/scripts/load_unslop.py": "bc29a203b2bb3fbf6d79f7be4461d9697f0237fb366554d3f5dec935e5cf5923"
+      }
+    },
+    "shadcn": {
+      "repo": "shadcn-ui/ui",
+      "rev": "bfa64ff4d1cb7317d2403ecb176df6826d4caffc",
+      "mappings": [
+        {
+          "from": "skills/shadcn",
+          "to": "skills/shadcn"
+        },
+        {
+          "from": "LICENSE.md",
+          "to": "skills/shadcn/LICENSE.md"
+        }
+      ],
+      "exclude": [
+        "evals/**",
+        "*.png"
+      ],
+      "files": {
+        "skills/shadcn/LICENSE.md": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f",
+        "skills/shadcn/SKILL.md": "93951e5e83f616a3e046491c00d770bd54c0a64164706cd1191822a233d27592",
+        "skills/shadcn/agents/openai.yml": "35db91b1eef58b2abe01da9b88577de5a44e233b740cd93d692ddeeadd2afe4d",
+        "skills/shadcn/assets/showcase/color-pair.tsx": "6028f0b677912216822fdaf76ae6b8863c429916ed4a9626b73f4de4506f8ee4",
+        "skills/shadcn/assets/showcase/preview-states.css": "8d9e3cec24dd01b11c5ba12196d0376a131797d9ad247ea624e66eb8bbf61b0e",
+        "skills/shadcn/assets/showcase/state-matrix.tsx": "07794119fe05ff735358b3f8ca30a8297617ab64dfb3901dce4d89fe5f443458",
+        "skills/shadcn/cli.md": "a381e35bf36fe7bb851952c13707e01e82434fd7a4a4e53f6df26c6370838904",
+        "skills/shadcn/customization.md": "a19e81c78843df255e85755e52659268d793845add845b34ad8091f62bff3af9",
+        "skills/shadcn/design-system-page.md": "c541d661af159548744be3e27f79e7da710ab83f9afd448a4346f7ff1531d328",
+        "skills/shadcn/design-system.md": "9ed11e93e7e80e34c8795d5ba82e5420ca905e8e9949fef79cbe9239184fd06b",
+        "skills/shadcn/mcp.md": "8d696b4e45b7d0e337367248513bd9acebe8f3bcfd7b748c775e5a337c8f38c8",
+        "skills/shadcn/registry.md": "4f239be36bd2b58e17047db1ca80ab7da00e15a8b73242e5e4d50d113c4caa05",
+        "skills/shadcn/rules/base-vs-radix.md": "2b2deb47d004285220c1fc6b38bb2edc2d0ccbcdafd031b0b189d5d8ed0d1ba8",
+        "skills/shadcn/rules/chat.md": "4b4610d487ddc9751f3cfe0c554a06560ac723fcc2460abad77a1d3c7c9a4b95",
+        "skills/shadcn/rules/composition.md": "f282df828d83a91132a846ddb62eea149a7c7c94822e9ca88cfddf85af01aa41",
+        "skills/shadcn/rules/forms.md": "29593e14381e34626f8e0e9c15c59f3394b92a0623af6a6ec94585400123853c",
+        "skills/shadcn/rules/icons.md": "d4a58266648872d9ee07d0c2368843a1cb88b8253b7f528dd7bda9d68b6c2535",
+        "skills/shadcn/rules/styling.md": "f88fbd72dff862805b786dc7d7e4c74c83030fc278c5b97c993e4e665001798c",
+        "skills/shadcn/scripts/showcase-coverage.mjs": "fb593e0806414d23b51354a46881f0b2873afc226bda0926a22f83cbd60af2fa"
+      }
+    },
+    "signs-of-ai-design": {
+      "repo": "febbhav/signs-of-ai-design",
+      "rev": "854b46f18dee5cc174d45cec8cd4f3142fe46984",
+      "mappings": [
+        {
+          "from": "design-rules.md",
+          "to": "skills/design-pipeline/references/signs-of-ai-design.md"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/design-pipeline/references/signs-of-ai-design.LICENSE"
+        }
+      ],
+      "exclude": [],
+      "files": {
+        "skills/design-pipeline/references/signs-of-ai-design.LICENSE": "93a7b5cbb7b82bfa8133da69d21cb9fbcf605c7b76b6a8ceaafa0551426f39b4",
+        "skills/design-pipeline/references/signs-of-ai-design.md": "1e45d23a0b314fba90aef164c60a9a769c02881b1961bba0651875057618c4be"
+      }
+    }
+  }
+}
