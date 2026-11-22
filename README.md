@@ -60,3 +60,4 @@ nix fmt                       # Format Nix files
 ## Included Skills
 
 - [`atomic-conventional-c4-commits`](skills/atomic-conventional-c4-commits/SKILL.md) — Decompose diffs into minimal, bisectable patches formatted with Conventional Commits v1.0.0 and ZeroMQ C4 discipline.
+- [`design-pipeline`](skills/design-pipeline/SKILL.md) — Generate, audit, and refactor UI/UX components with anti-slop constraints, markup pruning rules, heuristic QA, and visual asset cleanup pipelines.
