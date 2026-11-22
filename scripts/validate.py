@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -520,6 +521,52 @@ def validate_skill(skill_dir: Path) -> list[str]:
     return errors
 
 
+def _check_entry_dir(p: Path, root: Path, label: str) -> tuple[bool, list[str]]:
+    if p.is_symlink() and not p.exists():
+        return False, [f"{label}: broken symlink in skills directory"]
+    if not p.is_dir():
+        return False, [f"{label}: unexpected non-directory entry in skills directory"]
+    try:
+        p_real = p.resolve(strict=True)
+    except OSError as exc:
+        return False, [f"{label}: cannot resolve directory: {exc}"]
+    if not p_real.is_relative_to(root):
+        return False, [f"{label}: directory symlink resolves outside skills directory"]
+    return True, []
+
+
+def _validate_skills_json(skills_json_path: Path, categories: list[str], has_flat: bool) -> list[str]:
+    errors: list[str] = []
+    try:
+        data = json.loads(skills_json_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return [f"skills.json: cannot parse JSON: {exc}"]
+
+    if not isinstance(data, dict) or not isinstance(data.get("entries"), list):
+        return ["skills.json: root must be an object with an 'entries' list"]
+
+    paths: list[str] = []
+    for idx, entry in enumerate(data["entries"]):
+        if not isinstance(entry, dict) or not isinstance(entry.get("path"), str) or not entry["path"]:
+            errors.append(f"skills.json: entries[{idx}].path must be a non-empty string")
+            continue
+        raw_path = entry["path"].rstrip("/")
+        if not (raw_path.startswith("~/") or raw_path.startswith("/")):
+            errors.append(
+                f"skills.json: entries[{idx}].path {raw_path!r} must start with '~/' or '/'"
+            )
+            continue
+        paths.append(raw_path)
+
+    for cat in categories:
+        suffix = f"/skills/{cat}"
+        if not any(p.endswith(suffix) for p in paths):
+            errors.append(f"skills.json: missing entry ending with {suffix!r} for category {cat!r}")
+    if has_flat and not any(p.endswith("/skills") for p in paths):
+        errors.append("skills.json: missing entry ending with '/skills' for top-level skills")
+    return errors
+
+
 def main(argv: list[str]) -> int:
     if len(argv) > 2:
         print("Usage: validate.py [skills_dir]", file=sys.stderr)
@@ -536,42 +583,75 @@ def main(argv: list[str]) -> int:
 
     skills_root = skills_dir.resolve(strict=True)
     skill_dirs: list[Path] = []
+    categories: list[str] = []
+    has_flat = False
     all_errors: list[str] = []
 
     for p in sorted(skills_dir.iterdir(), key=lambda x: x.name):
-        if p.is_symlink() and not p.exists():
-            all_errors.append(f"{p.name}: broken symlink in skills directory")
+        if p.name in (".gitkeep", ".DS_Store") or p.name.startswith("."):
+            if p.is_symlink() and not p.exists():
+                all_errors.append(f"{p.name}: broken symlink in skills directory")
             continue
-        if p.name in (".gitkeep", ".DS_Store"):
+        ok, errs = _check_entry_dir(p, skills_root, p.name)
+        if not ok:
+            all_errors.extend(errs)
             continue
-        if p.name.startswith("."):
+
+        skill_marker = p / "SKILL.md"
+        if skill_marker.exists() or skill_marker.is_symlink():
+            has_flat = True
+            skill_dirs.append(p)
             continue
-        if not p.is_dir():
-            all_errors.append(f"{p.name}: unexpected non-directory entry in skills directory")
+
+        if not (1 <= len(p.name) <= 64) or not NAME_RE.match(p.name):
+            all_errors.append(
+                f"{p.name}: category directory must match ^[a-z0-9]+(-[a-z0-9]+)*$ (1-64 chars)"
+            )
             continue
-        try:
-            p_real = p.resolve(strict=True)
-        except OSError as exc:
-            all_errors.append(f"{p.name}: cannot resolve skill directory: {exc}")
-            continue
-        if not p_real.is_relative_to(skills_root):
-            all_errors.append(f"{p.name}: skill directory symlink resolves outside skills directory")
-            continue
-        skill_dirs.append(p)
+
+        categories.append(p.name)
+        for sub in sorted(p.iterdir(), key=lambda x: x.name):
+            if sub.name in (".gitkeep", ".DS_Store") or sub.name.startswith("."):
+                if sub.is_symlink() and not sub.exists():
+                    all_errors.append(f"{p.name}/{sub.name}: broken symlink in category directory")
+                continue
+            label = f"{p.name}/{sub.name}"
+            sub_ok, sub_errs = _check_entry_dir(sub, skills_root, label)
+            if not sub_ok:
+                all_errors.extend(sub_errs)
+                continue
+            sub_marker = sub / "SKILL.md"
+            if not (sub_marker.exists() or sub_marker.is_symlink()):
+                all_errors.append(f"{label}: missing SKILL.md (max nesting is skills/<category>/<skill>)")
+                continue
+            skill_dirs.append(sub)
 
     if not skill_dirs and not all_errors:
         print(f"No skills found under {skills_dir}", file=sys.stderr)
         return 1
 
+    seen_leaf: dict[str, Path] = {}
     for skill_dir in skill_dirs:
+        prev = seen_leaf.get(skill_dir.name)
+        if prev is not None:
+            all_errors.append(
+                f"duplicate skill name '{skill_dir.name}': "
+                f"{prev.relative_to(skills_dir)} and {skill_dir.relative_to(skills_dir)}"
+            )
+        else:
+            seen_leaf[skill_dir.name] = skill_dir
         all_errors.extend(validate_skill(skill_dir))
+
+    skills_json_path = skills_dir.parent / "skills.json"
+    if skills_json_path.exists() or skills_json_path.is_symlink():
+        all_errors.extend(_validate_skills_json(skills_json_path, categories, has_flat))
 
     if all_errors:
         for err in all_errors:
             print(f"ERROR: {err}", file=sys.stderr)
         return 1
 
-    names = ", ".join(d.name for d in skill_dirs)
+    names = ", ".join(sorted(d.name for d in skill_dirs))
     print(f"Validated {len(skill_dirs)} skills: {names}")
     return 0
 

@@ -43,7 +43,7 @@
                 nativeBuildInputs = [ pkgs.python3 ];
               }
               ''
-                python3 ${./scripts/validate.py} ${./skills}
+                python3 ${./.}/scripts/validate.py ${./.}/skills
                 touch "$out"
               '';
 
