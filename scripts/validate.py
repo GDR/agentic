@@ -503,6 +503,15 @@ def validate_skill(skill_dir: Path) -> list[str]:
             )
             continue
         rel_path = target.split("#", 1)[0].split("?", 1)[0]
+        # Strip runtime {baseDir}/ placeholder used by portable skills so internal
+        # references validate statically while still rejecting rooted/parent escapes.
+        if rel_path.startswith("{baseDir}/"):
+            rel_path = rel_path[len("{baseDir}/") :]
+            if rel_path.startswith("/"):
+                errors.append(
+                    f"{skill_dir.name}/SKILL.md: relative link '{target}' escapes skill directory"
+                )
+                continue
         if not rel_path:
             continue
         resolved = (skill_dir / rel_path).resolve()
