@@ -9,18 +9,107 @@ from pathlib import Path
 
 NAME_RE = re.compile(r"\A[a-z0-9]+(-[a-z0-9]+)*\Z")
 TOP_KEY_RE = re.compile(r"^([A-Za-z0-9_-]+)\s*:\s*(.*)$")
-# Match markdown links not preceded by '!' (images) or wait - images could also be relative assets,
-# so validating both [label](target) and ![alt](target) outside code blocks is helpful.
-LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
-FENCE_RE = re.compile(r"^\s*(`{3,}|~{3,})(.*)$")
-INLINE_CODE_RE = re.compile(r"`[^`]*`")
+FENCE_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
 
 
-def _unquote(val: str) -> str:
-    if len(val) >= 2 and ((val[0] == val[-1] == '"') or (val[0] == val[-1] == "'")):
-        return val[1:-1]
-    return val
+def _strip_inline_comment(val: str) -> str:
+    """Strip YAML inline '# ...' comments outside quotes."""
+    in_single = False
+    in_double = False
+    idx = 0
+    n = len(val)
+    while idx < n:
+        ch = val[idx]
+        if in_double:
+            if ch == "\\" and idx + 1 < n:
+                idx += 2
+                continue
+            if ch == '"':
+                in_double = False
+        elif in_single:
+            if ch == "'":
+                if idx + 1 < n and val[idx + 1] == "'":
+                    idx += 2
+                    continue
+                in_single = False
+        else:
+            if ch == '"':
+                in_double = True
+            elif ch == "'":
+                in_single = True
+            elif ch == "#" and (idx == 0 or val[idx - 1].isspace()):
+                return val[:idx].strip()
+        idx += 1
+    return val.strip()
+
+
+def _parse_quoted_scalar(
+    first_line_rest: str, fm_lines: list[str], start_idx: int
+) -> tuple[str, int]:
+    """Parse a single- or multi-line YAML quoted scalar and return (value, next_index)."""
+    quote = first_line_rest[0]
+    collected_lines = [first_line_rest]
+    idx = start_idx
+
+    def _try_finish(text: str) -> tuple[bool, str]:
+        out: list[str] = []
+        pos = 1
+        n = len(text)
+        while pos < n:
+            ch = text[pos]
+            if quote == '"':
+                if ch == "\\":
+                    if pos + 1 >= n:
+                        return False, ""
+                    nxt = text[pos + 1]
+                    escapes = {"n": "\n", "t": "\t", "r": "\r", "\\": "\\", '"': '"'}
+                    out.append(escapes.get(nxt, nxt))
+                    pos += 2
+                    continue
+                if ch == '"':
+                    trailing = text[pos + 1 :].strip()
+                    if trailing and not trailing.startswith("#"):
+                        raise ValueError(f"Unexpected trailing characters after quoted value: {trailing!r}")
+                    return True, "".join(out)
+                out.append(ch)
+                pos += 1
+            else:
+                if ch == "'":
+                    if pos + 1 < n and text[pos + 1] == "'":
+                        out.append("'")
+                        pos += 2
+                        continue
+                    trailing = text[pos + 1 :].strip()
+                    if trailing and not trailing.startswith("#"):
+                        raise ValueError(f"Unexpected trailing characters after quoted value: {trailing!r}")
+                    return True, "".join(out)
+                out.append(ch)
+                pos += 1
+        return False, ""
+
+    done, parsed = _try_finish(first_line_rest)
+    if done:
+        return parsed, idx + 1
+
+    # Multi-line quoted scalar: fold indented continuation lines
+    j = idx + 1
+    while j < len(fm_lines):
+        nxt_line = fm_lines[j]
+        if nxt_line.strip() == "":
+            collected_lines.append("")
+            j += 1
+            continue
+        if not nxt_line[0].isspace():
+            break
+        collected_lines.append(nxt_line.strip())
+        joined = _fold_lines(collected_lines)
+        done, parsed = _try_finish(joined)
+        if done:
+            return parsed, j + 1
+        j += 1
+
+    raise ValueError(f"Unterminated {quote}-quoted scalar in frontmatter")
 
 
 def _fold_lines(lines: list[str]) -> str:
@@ -42,7 +131,10 @@ def _fold_lines(lines: list[str]) -> str:
 
 
 def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
-    """Parse YAML frontmatter delimited by --- lines, including block scalars (> / |)."""
+    """Parse YAML frontmatter delimited by --- lines, including block and multi-line scalars."""
+    if text.startswith("\ufeff"):
+        raise ValueError("Unexpected UTF-8 BOM; save SKILL.md as UTF-8 without BOM")
+
     lines = text.splitlines()
     if not lines or lines[0].strip() != "---":
         raise ValueError("Missing opening '---' YAML frontmatter delimiter on line 1")
@@ -67,16 +159,20 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
             i += 1
             continue
 
-        # Ignore unexpected indented lines outside an active block
         if raw[0].isspace():
-            i += 1
-            continue
+            raise ValueError(f"Unexpected indented frontmatter line {i + 2}: {raw!r}")
 
         m = TOP_KEY_RE.match(raw)
         if not m:
             raise ValueError(f"Malformed frontmatter line {i + 2}: {raw!r}")
 
-        key, rest = m.group(1), m.group(2).strip()
+        key, raw_rest = m.group(1), m.group(2).strip()
+        if raw_rest.startswith(('"', "'")):
+            val, i = _parse_quoted_scalar(raw_rest, fm_lines, i)
+            data[key] = val
+            continue
+
+        rest = _strip_inline_comment(raw_rest)
         if rest in (">", ">-", "|", "|-"):
             style = rest[0]
             block_lines: list[str] = []
@@ -95,7 +191,7 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
                     indent = leading
                 block_lines.append(blk[min(indent, leading) :] if leading >= indent else blk.lstrip(" "))
                 i += 1
-            # Trim leading/trailing empty lines from block scalar
+            # Trim trailing empty lines from block scalar
             while block_lines and block_lines[-1] == "":
                 block_lines.pop()
             if style == ">":
@@ -118,10 +214,180 @@ def parse_frontmatter(text: str) -> tuple[dict[str, str], str]:
             data[key] = "\n".join(nested_lines).strip()
             continue
 
-        data[key] = _unquote(rest)
+        # Plain scalar: fold any indented continuation lines per YAML plain scalar rules
+        plain_lines = [rest]
         i += 1
+        while i < len(fm_lines):
+            nxt = fm_lines[i]
+            if nxt.strip() == "":
+                look = i + 1
+                while look < len(fm_lines) and fm_lines[look].strip() == "":
+                    look += 1
+                if (
+                    look < len(fm_lines)
+                    and fm_lines[look][0].isspace()
+                    and not fm_lines[look].lstrip().startswith("#")
+                ):
+                    plain_lines.append("")
+                    i += 1
+                    continue
+                break
+            if nxt.lstrip().startswith("#") or not nxt[0].isspace():
+                break
+            plain_lines.append(_strip_inline_comment(nxt.strip()))
+            i += 1
+        while plain_lines and plain_lines[-1] == "":
+            plain_lines.pop()
+        data[key] = _fold_lines(plain_lines).strip()
 
     return data, body
+
+
+def _strip_inline_code(line: str) -> str:
+    """Remove inline code spans (`...`, ``...``, etc.) of arbitrary backtick length."""
+    out: list[str] = []
+    i = 0
+    n = len(line)
+    while i < n:
+        if line[i] != "`":
+            out.append(line[i])
+            i += 1
+            continue
+        j = i
+        while j < n and line[j] == "`":
+            j += 1
+        tick_len = j - i
+        k = j
+        found = -1
+        while k < n:
+            if line[k] == "`":
+                m = k
+                while m < n and line[m] == "`":
+                    m += 1
+                if (m - k) == tick_len:
+                    found = m
+                    break
+                k = m
+            else:
+                k += 1
+        if found != -1:
+            i = found
+        else:
+            out.append(line[i:j])
+            i = j
+    return "".join(out)
+
+
+def _extract_links_from_line(cleaned: str) -> list[str]:
+    """Extract markdown link destinations supporting <...> and balanced parentheses."""
+    targets: list[str] = []
+    i = 0
+    n = len(cleaned)
+    while i < n:
+        if cleaned[i] != "[":
+            i += 1
+            continue
+        j = i + 1
+        while j < n:
+            if cleaned[j] == "\\" and j + 1 < n:
+                j += 2
+                continue
+            if cleaned[j] == "]":
+                break
+            j += 1
+        if j >= n or j + 1 >= n or cleaned[j + 1] != "(":
+            i += 1
+            continue
+
+        pos = j + 2
+        while pos < n and cleaned[pos].isspace():
+            pos += 1
+        if pos >= n:
+            i = j + 2
+            continue
+
+        target = ""
+        valid = False
+        if cleaned[pos] == "<":
+            end_angle = pos + 1
+            while end_angle < n:
+                if cleaned[end_angle] == "\\" and end_angle + 1 < n:
+                    end_angle += 2
+                    continue
+                if cleaned[end_angle] == ">":
+                    break
+                end_angle += 1
+            if end_angle < n and cleaned[end_angle] == ">":
+                target = cleaned[pos + 1 : end_angle].strip()
+                pos = end_angle + 1
+                in_q = ""
+                while pos < n:
+                    ch = cleaned[pos]
+                    if in_q:
+                        if ch == "\\" and pos + 1 < n:
+                            pos += 2
+                            continue
+                        if ch == in_q:
+                            in_q = ""
+                    else:
+                        if ch in ('"', "'"):
+                            in_q = ch
+                        elif ch == ")":
+                            valid = True
+                            pos += 1
+                            break
+                    pos += 1
+        else:
+            start = pos
+            depth = 0
+            while pos < n:
+                ch = cleaned[pos]
+                if ch == "\\" and pos + 1 < n:
+                    pos += 2
+                    continue
+                if ch == "(":
+                    depth += 1
+                elif ch == ")":
+                    if depth == 0:
+                        target = cleaned[start:pos].strip()
+                        valid = True
+                        pos += 1
+                        break
+                    depth -= 1
+                elif ch.isspace():
+                    target = cleaned[start:pos].strip()
+                    in_q = ""
+                    p_depth = depth
+                    while pos < n:
+                        c2 = cleaned[pos]
+                        if in_q:
+                            if c2 == "\\" and pos + 1 < n:
+                                pos += 2
+                                continue
+                            if c2 == in_q:
+                                in_q = ""
+                        else:
+                            if c2 in ('"', "'"):
+                                in_q = c2
+                            elif c2 == "(":
+                                p_depth += 1
+                            elif c2 == ")":
+                                if p_depth == 0:
+                                    valid = True
+                                    pos += 1
+                                    break
+                                p_depth -= 1
+                        pos += 1
+                    break
+                pos += 1
+
+        if valid:
+            if target:
+                targets.append(target)
+            i = pos
+        else:
+            i = j + 2
+    return targets
 
 
 def extract_markdown_links(body: str) -> list[tuple[int, str]]:
@@ -149,16 +415,8 @@ def extract_markdown_links(body: str) -> list[tuple[int, str]]:
         if in_fence:
             continue
 
-        cleaned = INLINE_CODE_RE.sub("", line)
-        for match in LINK_RE.finditer(cleaned):
-            raw_target = match.group(1).strip()
-            if not raw_target:
-                continue
-            if raw_target.startswith("<") and ">" in raw_target:
-                target = raw_target[1 : raw_target.index(">")].strip()
-            else:
-                # Strip optional markdown link title: path/to/file.md "title"
-                target = raw_target.split(None, 1)[0]
+        cleaned = _strip_inline_code(line)
+        for target in _extract_links_from_line(cleaned):
             results.append((lineno, target))
     return results
 
@@ -166,8 +424,19 @@ def extract_markdown_links(body: str) -> list[tuple[int, str]]:
 def validate_skill(skill_dir: Path) -> list[str]:
     errors: list[str] = []
     skill_md = skill_dir / "SKILL.md"
+    if skill_md.is_symlink() and not skill_md.exists():
+        return [f"{skill_dir.name}: SKILL.md is a broken symlink"]
     if not skill_md.is_file():
         return [f"{skill_dir.name}: missing SKILL.md"]
+
+    try:
+        skill_root = skill_dir.resolve(strict=True)
+        skill_md_real = skill_md.resolve(strict=True)
+    except OSError as exc:
+        return [f"{skill_dir.name}/SKILL.md: cannot resolve path: {exc}"]
+
+    if not skill_md_real.is_relative_to(skill_root):
+        return [f"{skill_dir.name}/SKILL.md: symlink resolves outside skill directory"]
 
     try:
         text = skill_md.read_text(encoding="utf-8")
@@ -196,7 +465,6 @@ def validate_skill(skill_dir: Path) -> list[str]:
             f"{skill_dir.name}/SKILL.md: description exceeds 1024 chars ({len(desc)} chars)"
         )
 
-    skill_root = skill_dir.resolve()
     for _, target in extract_markdown_links(body):
         if target.startswith("#") or SCHEME_RE.match(target):
             continue
@@ -238,14 +506,35 @@ def main(argv: list[str]) -> int:
         print(f"Skills directory not found: {skills_dir}", file=sys.stderr)
         return 1
 
-    skill_dirs = sorted(
-        p for p in skills_dir.iterdir() if p.is_dir() and not p.name.startswith(".")
-    )
-    if not skill_dirs:
+    skills_root = skills_dir.resolve(strict=True)
+    skill_dirs: list[Path] = []
+    all_errors: list[str] = []
+
+    for p in sorted(skills_dir.iterdir(), key=lambda x: x.name):
+        if p.is_symlink() and not p.exists():
+            all_errors.append(f"{p.name}: broken symlink in skills directory")
+            continue
+        if p.name in (".gitkeep", ".DS_Store"):
+            continue
+        if p.name.startswith("."):
+            continue
+        if not p.is_dir():
+            all_errors.append(f"{p.name}: unexpected non-directory entry in skills directory")
+            continue
+        try:
+            p_real = p.resolve(strict=True)
+        except OSError as exc:
+            all_errors.append(f"{p.name}: cannot resolve skill directory: {exc}")
+            continue
+        if not p_real.is_relative_to(skills_root):
+            all_errors.append(f"{p.name}: skill directory symlink resolves outside skills directory")
+            continue
+        skill_dirs.append(p)
+
+    if not skill_dirs and not all_errors:
         print(f"No skills found under {skills_dir}", file=sys.stderr)
         return 1
 
-    all_errors: list[str] = []
     for skill_dir in skill_dirs:
         all_errors.extend(validate_skill(skill_dir))
 
