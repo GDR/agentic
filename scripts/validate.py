@@ -592,6 +592,10 @@ def main(argv: list[str]) -> int:
             if not sub_ok:
                 all_errors.extend(sub_errs)
                 continue
+            if not sub.name.startswith(f"{p.name}-"):
+                all_errors.append(
+                    f"{label}: skill directory under category '{p.name}' must start with '{p.name}-'"
+                )
             sub_marker = sub / "SKILL.md"
             if not (sub_marker.exists() or sub_marker.is_symlink()):
                 all_errors.append(f"{label}: missing SKILL.md (max nesting is skills/<category>/<skill>)")

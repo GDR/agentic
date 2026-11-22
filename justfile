@@ -34,6 +34,8 @@ new name:
 	@python3 -c 'import pathlib, re, sys; raw = sys.argv[1].strip("/"); parts = raw.split("/"); \
 		assert 1 <= len(parts) <= 2, "Use <name> or <category>/<name>"; \
 		assert all(re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", p) and len(p) <= 64 for p in parts), "Invalid skill path"; \
+		if len(parts) == 2 and not parts[1].startswith(f"{parts[0]}-"): parts[1] = f"{parts[0]}-{parts[1]}"; \
+		assert len(parts[-1]) <= 64, "Prefixed skill name exceeds 64 chars"; \
 		d = pathlib.Path("skills").joinpath(*parts); \
 		leaf = parts[-1]; \
 		assert not d.exists(), f"Skill already exists: {d}"; \

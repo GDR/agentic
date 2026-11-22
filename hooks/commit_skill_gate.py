@@ -479,7 +479,7 @@ def evaluate_hook(
     payload: dict[str, Any],
     *,
     harness: str = "auto",
-    skill_name: str = "atomic-conventional-c4-commits",
+    skill_name: str = "git-atomic-conventional-c4-commits",
 ) -> tuple[str, dict[str, Any] | None]:
     resolved_harness = detect_harness(payload, harness)
 
@@ -529,7 +529,7 @@ def evaluate_hook(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="PreToolUse gate for git commit skill loading.")
     parser.add_argument("--harness", choices=("auto", "antigravity", "claude"), default="auto")
-    parser.add_argument("--skill", default="atomic-conventional-c4-commits")
+    parser.add_argument("--skill", default="git-atomic-conventional-c4-commits")
     args = parser.parse_args(argv)
 
     raw_stdin = sys.stdin.read()

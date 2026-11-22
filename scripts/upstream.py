@@ -22,6 +22,8 @@ import urllib.request
 REPO_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 SHA40_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+FRONTMATTER_DELIM_RE = re.compile(r"^---[ \t]*$")
+NAME_FIELD_RE = re.compile(r"^(name\s*:\s*)(.*)$")
 IGNORED_DIR_NAMES = {"__pycache__", ".git"}
 IGNORED_FILE_NAMES = {".DS_Store"}
 
@@ -289,6 +291,40 @@ def fetch_tree_blobs(repo: str, rev: str) -> dict[str, tuple[str, str]]:
     return out
 
 
+def rewrite_skill_frontmatter_name(data: bytes, target_name: str) -> bytes:
+    """Align SKILL.md YAML frontmatter `name:` with the vendored folder name."""
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise UpstreamError(f"SKILL.md is not valid UTF-8: {exc}") from exc
+
+    lines = text.splitlines(keepends=True)
+    if not lines or not FRONTMATTER_DELIM_RE.match(lines[0].rstrip("\r\n")):
+        raise UpstreamError("SKILL.md missing opening '---' YAML frontmatter delimiter")
+
+    end_idx = None
+    for idx in range(1, len(lines)):
+        if FRONTMATTER_DELIM_RE.match(lines[idx].rstrip("\r\n")):
+            end_idx = idx
+            break
+    if end_idx is None:
+        raise UpstreamError("SKILL.md missing closing '---' YAML frontmatter delimiter")
+
+    for idx in range(1, end_idx):
+        line_no_eol = lines[idx].rstrip("\r\n")
+        eol = lines[idx][len(line_no_eol) :]
+        m = NAME_FIELD_RE.match(line_no_eol)
+        if not m:
+            continue
+        current = m.group(2).split("#", 1)[0].strip().strip("\"'")
+        if current == target_name:
+            return data
+        lines[idx] = f"{m.group(1)}{target_name}{eol}"
+        return "".join(lines).encode("utf-8")
+
+    raise UpstreamError("SKILL.md frontmatter missing required 'name' field")
+
+
 def resolve_mapping_blobs(
     repo: str,
     rev: str,
@@ -343,6 +379,9 @@ def resolve_mapping_blobs(
         quoted_path = urllib.parse.quote(src_path, safe="/")
         raw_url = f"https://raw.githubusercontent.com/{repo}/{rev}/{quoted_path}"
         data = http_get_bytes(raw_url)
+        dest_parts = PurePosixPath(dest).parts
+        if len(dest_parts) in (3, 4) and dest_parts[0] == "skills" and dest_parts[-1] == "SKILL.md":
+            data = rewrite_skill_frontmatter_name(data, dest_parts[-2])
         fetched.append(
             FetchedBlob(
                 dest=dest,
