@@ -137,6 +137,50 @@
         "skills/design/design-pipeline/references/signs-of-ai-design.LICENSE": "93a7b5cbb7b82bfa8133da69d21cb9fbcf605c7b76b6a8ceaafa0551426f39b4",
         "skills/design/design-pipeline/references/signs-of-ai-design.md": "1e45d23a0b314fba90aef164c60a9a769c02881b1961bba0651875057618c4be"
       }
+    },
+    "platform-design-skills": {
+      "repo": "ehmo/platform-design-skills",
+      "rev": "dc2be825d8b439caea78e9eaa8fb3ac23b0ff3e9",
+      "mappings": [
+        {
+          "from": "skills/macos",
+          "to": "skills/design/macos-design-guidelines"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/design/macos-design-guidelines/LICENSE"
+        }
+      ],
+      "exclude": [],
+      "files": {
+        "skills/design/macos-design-guidelines/AGENTS.md": "af58d5c7b698d28ee7b5304a924f1e61b2b34ad1614e797c3a02a6ecef98431f",
+        "skills/design/macos-design-guidelines/LICENSE": "1126322e2cc8d165adc4c792eeb195717de2bcc7b39be1ce77959d78e87ef685",
+        "skills/design/macos-design-guidelines/SKILL.md": "9fa44a38eee0138d6aaf41b7f34223bcd9b25099e4706846b8773124fc5b6ecc",
+        "skills/design/macos-design-guidelines/metadata.json": "4fca132dd9c41553e2aff42391da17f788dc7f4092d17c134adf6c384e319e49",
+        "skills/design/macos-design-guidelines/rules/_sections.md": "5462ed04fc7722163bdd25a31954bec7eada02ae1fbb7ad8b7930548877522ca"
+      }
+    },
+    "apple-design-hig": {
+      "repo": "mr8lu/apple-design-hig",
+      "rev": "4db98392b6f3ac10beb5f4e8f775b7eaafd66b79",
+      "mappings": [
+        {
+          "from": "skills/apple-design-hig",
+          "to": "skills/design/apple-design-hig"
+        }
+      ],
+      "exclude": [],
+      "files": {
+        "skills/design/apple-design-hig/SKILL.md": "59fc3b47793501f65c2d0202c92fa431148596f1ef5acf4d8e17c1be2b1d39f7",
+        "skills/design/apple-design-hig/references/catalog.md": "df61250917775f5e10eb2f18b380d585dc86bb5e800e9c8383f335116e3b91ff",
+        "skills/design/apple-design-hig/references/components.md": "f1d68775e107a54eba1f0616b0decd8d7d501cd8ba68fe7b9474255788b7a1f2",
+        "skills/design/apple-design-hig/references/foundations.md": "d9bfa0f90ba8fe74ebe5ce866506bc890f61f96bccb33fb4d8e4a86b9b9927b5",
+        "skills/design/apple-design-hig/references/getting-started.md": "d8f9e8f48b241e22d5060aadf1d04cd03e9b57e9d529f8dbb486900f3f941b6a",
+        "skills/design/apple-design-hig/references/inputs.md": "46da9e5f7c84f32cb1b932493ba05e55a10aa690f16a810cbb66deac84e5182b",
+        "skills/design/apple-design-hig/references/patterns.md": "da378c50f2810339b9b5eaf4e79939ecb174adad3b349bdb0d73e32ba24312b1",
+        "skills/design/apple-design-hig/references/technologies.md": "b2ce4f0ec71d24d2f2b529ea926e3f56c7a6d39c9f48cc4518d93fa2a054f030",
+        "skills/design/apple-design-hig/scripts/hig_fetch.py": "4e5bae30b26c33511aa8396acb20a4ce58617e673eab11a1da234bca4212c2f6"
+      }
     }
   }
 }
