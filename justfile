@@ -14,6 +14,11 @@ verify-upstream:
 test-hooks:
 	python3 -B -m unittest discover -s hooks -p 'test_*.py' -v
 
+[doc('Run MCP sync unit tests and validate mcp/global.json')]
+test-mcp:
+	python3 -B -m unittest discover -s mcp -p 'test_*.py' -v
+	python3 -B mcp/sync.py --validate-global mcp/global.json
+
 [doc('Fetch pinned upstream sources and verify recorded hashes')]
 [positional-arguments]
 sync-upstream *names:
@@ -24,8 +29,8 @@ sync-upstream *names:
 bump-upstream *names:
 	python3 scripts/upstream.py bump "$@"
 
-[doc('Run skill validation, upstream verification, hook tests, and Nix flake checks')]
-check: validate verify-upstream test-hooks
+[doc('Run skill validation, upstream verification, hook tests, MCP tests, and Nix flake checks')]
+check: validate verify-upstream test-hooks test-mcp
 	nix flake check
 
 [doc('Scaffold a new skill under skills/<name> or skills/<category>/<name>')]

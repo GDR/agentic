@@ -14,8 +14,11 @@
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
       pkgsFor = system: import nixpkgs { inherit system; };
+      agenticLib = import ./nix/mcp.nix { lib = nixpkgs.lib; };
     in
     {
+      lib = agenticLib;
+
       formatter = forAllSystems (system: (pkgsFor system).nixfmt-tree);
 
       packages = forAllSystems (
@@ -66,6 +69,17 @@
                 python3 -B -m unittest discover -s ${./.}/hooks -p 'test_*.py' -v
                 touch "$out"
               '';
+
+          test-mcp =
+            pkgs.runCommand "test-mcp"
+              {
+                nativeBuildInputs = [ pkgs.python3 ];
+              }
+              ''
+                python3 -B -m unittest discover -s ${./.}/mcp -p 'test_*.py' -v
+                python3 -B ${./.}/mcp/sync.py --validate-global ${./.}/mcp/global.json
+                touch "$out"
+              '';
         }
       );
 
@@ -73,14 +87,23 @@
         system:
         let
           pkgs = pkgsFor system;
+          mcp = agenticLib.mkMcp {
+            inherit pkgs;
+            servers = {
+              nixos = agenticLib.mcp.nixos { inherit pkgs; };
+            };
+          };
         in
         {
           default = pkgs.mkShell {
-            packages = with pkgs; [
-              python3
-              just
-              nixfmt
-            ];
+            packages =
+              (with pkgs; [
+                python3
+                just
+                nixfmt
+              ])
+              ++ mcp.packages;
+            shellHook = mcp.shellHook;
           };
         }
       );
