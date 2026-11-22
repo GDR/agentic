@@ -7,12 +7,12 @@ import re
 import sys
 from pathlib import Path
 
-NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+NAME_RE = re.compile(r"\A[a-z0-9]+(-[a-z0-9]+)*\Z")
 TOP_KEY_RE = re.compile(r"^([A-Za-z0-9_-]+)\s*:\s*(.*)$")
 # Match markdown links not preceded by '!' (images) or wait - images could also be relative assets,
 # so validating both [label](target) and ![alt](target) outside code blocks is helpful.
 LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
-FENCE_RE = re.compile(r"^\s*(```|~~~)")
+FENCE_RE = re.compile(r"^\s*(`{3,}|~{3,})(.*)$")
 INLINE_CODE_RE = re.compile(r"`[^`]*`")
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
 
@@ -129,17 +129,23 @@ def extract_markdown_links(body: str) -> list[tuple[int, str]]:
     results: list[tuple[int, str]] = []
     in_fence = False
     fence_char = ""
+    fence_len = 0
     for lineno, line in enumerate(body.splitlines(), start=1):
         fm = FENCE_RE.match(line)
         if fm:
-            marker = fm.group(1)[0]
+            fence_seq, info = fm.group(1), fm.group(2)
+            marker = fence_seq[0]
             if not in_fence:
-                in_fence = True
-                fence_char = marker
-            elif marker == fence_char:
+                if not (marker == "`" and "`" in info):
+                    in_fence = True
+                    fence_char = marker
+                    fence_len = len(fence_seq)
+                    continue
+            elif marker == fence_char and len(fence_seq) >= fence_len and not info.strip():
                 in_fence = False
                 fence_char = ""
-            continue
+                fence_len = 0
+                continue
         if in_fence:
             continue
 
@@ -192,7 +198,12 @@ def validate_skill(skill_dir: Path) -> list[str]:
 
     skill_root = skill_dir.resolve()
     for _, target in extract_markdown_links(body):
-        if target.startswith("#") or target.startswith("/") or SCHEME_RE.match(target):
+        if target.startswith("#") or SCHEME_RE.match(target):
+            continue
+        if target.startswith("/"):
+            errors.append(
+                f"{skill_dir.name}/SKILL.md: relative link '{target}' escapes skill directory"
+            )
             continue
         rel_path = target.split("#", 1)[0].split("?", 1)[0]
         if not rel_path:
