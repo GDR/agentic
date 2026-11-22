@@ -46,6 +46,16 @@
                 python3 ${./scripts/validate.py} ${./skills}
                 touch "$out"
               '';
+
+          verify-upstream =
+            pkgs.runCommand "verify-upstream"
+              {
+                nativeBuildInputs = [ pkgs.python3 ];
+              }
+              ''
+                python3 ${./.}/scripts/upstream.py verify --manifest ${./.}/upstream.json --root ${./.}
+                touch "$out"
+              '';
         }
       );
 

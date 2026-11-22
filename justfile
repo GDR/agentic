@@ -6,8 +6,22 @@ default:
 validate:
 	python3 scripts/validate.py
 
-[doc('Run skill validation and Nix flake checks')]
-check: validate
+[doc('Verify vendored upstream files match upstream.json hashes (offline)')]
+verify-upstream:
+	python3 scripts/upstream.py verify
+
+[doc('Fetch pinned upstream sources and verify recorded hashes')]
+[positional-arguments]
+sync-upstream *names:
+	python3 scripts/upstream.py sync "$@"
+
+[doc('Bump pinned upstream SHAs to latest HEAD (review git diff before committing)')]
+[positional-arguments]
+bump-upstream *names:
+	python3 scripts/upstream.py bump "$@"
+
+[doc('Run skill validation, upstream integrity verification, and Nix flake checks')]
+check: validate verify-upstream
 	nix flake check
 
 [doc('Scaffold a new skill under skills/<name>')]
