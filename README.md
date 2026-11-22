@@ -15,7 +15,8 @@ Canonical, OS-agnostic repository for cross-tool [Agent Skills](https://agentski
 │           ├── references/ # Optional on-demand documentation
 │           └── assets/     # Optional templates or static assets
 ├── skills.json             # Antigravity inherits manifest listing category directories
-├── rules/                  # Reserved for future cross-tool rules
+├── rules/
+│   └── AGENTS.md           # Canonical global rules symlinked across AI harnesses
 ├── agents/                 # Reserved for future cross-tool agent definitions
 ├── commands/               # Reserved for future cross-tool commands
 ├── scripts/
@@ -73,6 +74,10 @@ Third-party skills and rules are never pulled blindly from floating branches at 
 - `description` is non-empty and at most 1024 characters.
 - Relative Markdown links in the body resolve inside the skill directory and point to existing files.
 - [`skills.json`](skills.json) registers every category directory under `skills/`.
+
+## Global Rules
+
+[`rules/AGENTS.md`](rules/AGENTS.md) is the canonical cross-harness global rules file, symlinked via `GDR/dot` (`detached-repos`) to `~/.gemini/config/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.config/opencode/AGENTS.md`, and `~/.gemini/GEMINI.md`.
 
 ## Included Skills (`13`)
 
