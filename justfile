@@ -10,6 +10,10 @@ validate:
 verify-upstream:
 	python3 scripts/upstream.py verify
 
+[doc('Run hook script unit tests')]
+test-hooks:
+	python3 -B -m unittest discover -s hooks -p 'test_*.py' -v
+
 [doc('Fetch pinned upstream sources and verify recorded hashes')]
 [positional-arguments]
 sync-upstream *names:
@@ -20,8 +24,8 @@ sync-upstream *names:
 bump-upstream *names:
 	python3 scripts/upstream.py bump "$@"
 
-[doc('Run skill validation, upstream integrity verification, and Nix flake checks')]
-check: validate verify-upstream
+[doc('Run skill validation, upstream verification, hook tests, and Nix flake checks')]
+check: validate verify-upstream test-hooks
 	nix flake check
 
 [doc('Scaffold a new skill under skills/<name> or skills/<category>/<name>')]

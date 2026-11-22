@@ -56,6 +56,16 @@
                 python3 ${./.}/scripts/upstream.py verify --manifest ${./.}/upstream.json --root ${./.}
                 touch "$out"
               '';
+
+          test-hooks =
+            pkgs.runCommand "test-hooks"
+              {
+                nativeBuildInputs = [ pkgs.python3 ];
+              }
+              ''
+                python3 -B -m unittest discover -s ${./.}/hooks -p 'test_*.py' -v
+                touch "$out"
+              '';
         }
       );
 
