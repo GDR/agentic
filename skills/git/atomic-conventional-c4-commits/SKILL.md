@@ -5,7 +5,8 @@ description: >-
   combining Conventional Commits (v1.0.0) semantic types with ZeroMQ C4
   (RFC 42) discipline. Use when asked to commit changes, split diffs into
   atomic patches, stage hunks with git add -p, or write Conventional Commit
-  messages (<= 50 char imperative headline, 72 char body).
+  messages (<= 50 char imperative headline and mandatory 72-char wrapped
+  Problem:/Solution: body).
 ---
 
 # Skill: Atomic Conventional C4 Commits
@@ -47,7 +48,21 @@ Inspect git status and diffs, isolate them into strict minimal patches solving e
      - Lowercase first letter; no trailing period.
      - Breaking change indicated by `!` before `:` (e.g., `feat(api)!: drop v1 endpoints`).
    - **Line 2:** Blank line.
-   - **Line 3+ (Body, optional):** Concise problem-solution context wrapped at **72 characters**. Reference issue/ticket if applicable (`Fixes #123`).
+   - **Line 3+ (Mandatory Body — ZeroMQ C4 RFC 42 §2.3):** Never emit single-line commits. Always include both labeled paragraphs wrapped at **72 characters**:
+     - `Problem: <what is broken, missing, or motivates the patch>`
+     - Blank line
+     - `Solution: <minimal concrete change solving the problem>`
+     - Optional footer block after a blank line (`Fixes #123`, `BREAKING CHANGE: ...`).
+
+   ```text
+   fix(hooks): gate git commit on skill read
+
+   Problem: Agents invoke git commit without reading the commit skill,
+   producing non-atomic commits and inconsistent messages.
+
+   Solution: Add a PreToolUse hook that denies git commit until the
+   session transcript shows the commit skill was read.
+   ```
 
    ### Allowed Types:
    - `feat`: New feature or user-facing capability
@@ -63,6 +78,6 @@ Inspect git status and diffs, isolate them into strict minimal patches solving e
 5. **Execution**
    - Batch multi-commit sequences into a single shell command (and a single `nix develop --command` session when hooks require devShell tools) rather than separate turns per commit.
    - Scope staging strictly to intended files so unrelated unstaged edits do not trigger abort/re-plan cycles.
-   - Commit cleanly:
-     - Single-line: `git commit -m "<type>(<scope>): <summary>"`
-     - With body: `git commit -m "<type>(<scope>): <summary>" -m "<problem-solution body>"`
+   - Commit cleanly (Git separates multiple `-m` flags with blank lines):
+     - Standard: `git commit -m "<type>(<scope>): <summary>" -m "Problem: <...>" -m "Solution: <...>"`
+     - With footer: `git commit -m "<type>(<scope>): <summary>" -m "Problem: <...>" -m "Solution: <...>" -m "Fixes #123"`
