@@ -17,6 +17,9 @@ Canonical, OS-agnostic repository for cross-tool [Agent Skills](https://agentski
 ├── skills.json             # Antigravity inherits manifest listing category directories
 ├── rules/
 │   └── AGENTS.md           # Canonical global rules symlinked across AI harnesses
+├── hooks/
+│   ├── commit_skill_gate.py      # PreToolUse gate requiring commit skill read
+│   └── test_commit_skill_gate.py # Stdlib unittest suite for commit_skill_gate.py
 ├── agents/                 # Reserved for future cross-tool agent definitions
 ├── commands/               # Reserved for future cross-tool commands
 ├── scripts/
@@ -41,9 +44,10 @@ Common workflows:
 just new <cat>/<name>   # Scaffold skills/<category>/<name>/SKILL.md from template
 just validate            # Run scripts/validate.py against skills/ and skills.json
 just verify-upstream     # Offline SHA-256 verification of vendored upstream files
+just test-hooks          # Run hook unit tests under hooks/
 just sync-upstream       # Fetch pinned upstream commits and assert recorded hashes
 just bump-upstream       # Resolve latest upstream HEAD SHAs locally for git diff review
-just check               # Run validate, verify-upstream, and nix flake check
+just check               # Run validate, verify-upstream, test-hooks, and nix flake check
 just fmt                 # Format Nix files via nix fmt (nixfmt-tree)
 ```
 
@@ -78,6 +82,10 @@ Third-party skills and rules are never pulled blindly from floating branches at 
 ## Global Rules
 
 [`rules/AGENTS.md`](rules/AGENTS.md) is the canonical cross-harness global rules file, symlinked via `GDR/dot` (`detached-repos`) to `~/.gemini/config/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.config/opencode/AGENTS.md`, and `~/.gemini/GEMINI.md`.
+
+## Hooks
+
+[`hooks/commit_skill_gate.py`](hooks/commit_skill_gate.py) is a `PreToolUse` gate for Antigravity (`run_command`) and Claude Code (`Bash`) that blocks `git commit` until `atomic-conventional-c4-commits/SKILL.md` has been read or loaded in the active conversation transcript.
 
 ## Included Skills (`13`)
 
