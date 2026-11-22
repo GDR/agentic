@@ -181,6 +181,672 @@
         "skills/design/apple-design-hig/references/technologies.md": "b2ce4f0ec71d24d2f2b529ea926e3f56c7a6d39c9f48cc4518d93fa2a054f030",
         "skills/design/apple-design-hig/scripts/hig_fetch.py": "4e5bae30b26c33511aa8396acb20a4ce58617e673eab11a1da234bca4212c2f6"
       }
+    },
+    "cloudflare-security-audit": {
+      "repo": "cloudflare/security-audit-skill",
+      "rev": "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8",
+      "mappings": [
+        {
+          "from": "skills/security-audit",
+          "to": "skills/security/security-audit"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/security/security-audit/LICENSE"
+        }
+      ],
+      "exclude": [
+        "*.test.cjs"
+      ],
+      "files": {
+        "skills/security/security-audit/AI-AND-LLM.md": "7335a95c43554eadefcf03ece639291bb0e038c398a179299e3887ffe06bd2ef",
+        "skills/security/security-audit/ATTACK-CLASSES.md": "3ee4f00c6e8c9dcf6dd02dd5ac2a4ceb322e2085f3e9fbe79cf0c6330bc7ef83",
+        "skills/security/security-audit/CLIENT-SIDE.md": "613f6b98f86083e045525c5b60154ffdab122bac35f1e05eb17488e6e453370c",
+        "skills/security/security-audit/CLOUD-AND-DEPLOYMENT.md": "3c80f3088be22345e07b057c056d6ed99fe2b0304f794398964f7ccd5a496ca3",
+        "skills/security/security-audit/DATA-ISOLATION-AND-LIFECYCLE.md": "307dcb3e24d292715c4a041190e7bb135646a37eb6187619ae01d000a634a4ad",
+        "skills/security/security-audit/DESKTOP-MOBILE-AND-LOCAL-IPC.md": "58eae8ee0ca6a46611c501ec5a3ab47fdff88dd7db0d8d74789bbf8bb19d8cb2",
+        "skills/security/security-audit/HUNTING.md": "71c121decea1322c47c718f6e110f1a892980bb4266bd7ac55ef043a213ade09",
+        "skills/security/security-audit/LICENSE": "e598e694aa506650c7192d5ea3be0e50aca0d356ea00551c53429f0b01eb6391",
+        "skills/security/security-audit/MEMORY-SAFETY-AND-BINARY.md": "7c8b0dccfb35315cca2455509674d49632b2fe37e1f3aac16c1a496a7e9924a7",
+        "skills/security/security-audit/PROTOCOLS-RPC-AND-MESSAGING.md": "8b73816fa5b3697c9c40977f0c836b40f01d6e81929ff2720fe83ce089e9a619",
+        "skills/security/security-audit/RECONNAISSANCE.md": "02ca887aca84de8ae137f1891bd2f0a54f28d3fa6da92a27f54734382b3381a2",
+        "skills/security/security-audit/RESOURCE-EXHAUSTION-AND-AVAILABILITY.md": "4326fab5c92a0b4c420a70196254040105cd794026562130b59bf1a6db3e4baa",
+        "skills/security/security-audit/SKILL.md": "5e3e96a1e438d8f35fef0a1e38f02d4f00e2bdf910401b7dfe00e6779c6dac85",
+        "skills/security/security-audit/SUPPLY-CHAIN-AND-RELEASE.md": "f372e919940e335468ba1ae09f99026c3986a345f7fe26f8068f132e199f52a5",
+        "skills/security/security-audit/VALIDATION-AND-REPORTING.md": "b892470cb89bb31f33403e050d4bdfbe2cdaef940ade1496fa65e32b2e129449",
+        "skills/security/security-audit/WEB-PROTOCOL-AND-AUTH.md": "4f3066dffa23c5635859187be9b96c32f2aff29a688186b91ff0c63e47d62b5c",
+        "skills/security/security-audit/report-schema.json": "6575c9de4a62255699ea052ebf9a49ebfb373a32891bcd89af6f55cc84b35519",
+        "skills/security/security-audit/validate-coverage-ledger.cjs": "2eb280bd2e33c002916f86db9b29f9edfedb6454e5db973c766290465b868ac8",
+        "skills/security/security-audit/validate-findings.cjs": "e85f232e36bfac0f866f244da50376692d6b45c690beadcb00608b0e6c8b5283"
+      }
+    },
+    "wioui-security-review": {
+      "repo": "wioui/security-review-skill",
+      "rev": "c211c03568e719de2023d8ec07de418bffd4dbb0",
+      "mappings": [
+        {
+          "from": "skills/security-review",
+          "to": "skills/security/security-review"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/security/security-review/LICENSE"
+        }
+      ],
+      "exclude": [
+        "*.test.cjs"
+      ],
+      "files": {
+        "skills/security/security-review/AI-GENERATED-PRS.md": "ea1713925ae229b14c2bca15f6cf4c59ac5b5d8efed183db4673c8c3670455c8",
+        "skills/security/security-review/AUTOMATION-VS-HUMAN.md": "32856f6f3bb8abaf0a6bdf678ba3082786e44f36c4b800e61c428a9360ca35b8",
+        "skills/security/security-review/BUSINESS-LOGIC.md": "9b1147f0a8e5efd14e5af8762b7c27817dd9a514df3d5bea765cc2fda421b0ba",
+        "skills/security/security-review/CRYPTO-AND-SECRETS.md": "e4e3e42b21b3f0fe544842c557bd221dc039ee250b3b9071f841899deebc0ebb",
+        "skills/security/security-review/ERRORS-LOGGING-AND-DATA.md": "c2ea7c15f5affd8e7b29eb942bc2762e2ee1294df803e5e934a0e370649cc481",
+        "skills/security/security-review/IDENTITY-AND-ACCESS.md": "574afa9bba90a8e532ddce7021deb9e4971e34002c9b96b2faf577852e242d07",
+        "skills/security/security-review/INPUT-API-AND-FILES.md": "cf7100bf3a93d301241c5bd6c6c2954e7391d167391fddbb12e8c0df33eedeba",
+        "skills/security/security-review/LICENSE": "ed5bb732e62075750bd2564140aeba7a6cb158a62a0ca7d59f84a14fbd4930aa",
+        "skills/security/security-review/PR-TEMPLATE.md": "1bfc32439e8e185cb12853664ca9fdd3280ef86a06bf0455538f5f18a966a24a",
+        "skills/security/security-review/REVIEWING.md": "22e3cdf3d95f73a0c2f12514f71ac2dd5b1d36eaab490c95ce5769ab1cbdf708",
+        "skills/security/security-review/SCOPING.md": "af8e7fce05e0588ef520588ee5d96cc8313458ffa7822ec79684f7ca58bee89d",
+        "skills/security/security-review/SKILL.md": "a0b01567e92a86c403504221666fd0eed1e9489efe2924cd39c2342d36bd9ff1",
+        "skills/security/security-review/STANDARDS.md": "ea65d6405a69db6578f2c2c75ed0dcedf60a814769eeab414d11f5367b757074",
+        "skills/security/security-review/SUPPLY-CHAIN-AND-CONFIG.md": "10512790dc95806b826e37ae71bffb45a40e084427afa51458e5cffebf678fb6",
+        "skills/security/security-review/VALIDATION-AND-REPORTING.md": "74c7b7974958c3ed8316b5af6fe373383743415b3d5711e909c6ca63e6b951e5",
+        "skills/security/security-review/checklist.json": "cf43c34e6bd30103951746af48d6407a4302071c49d93f22a5aa520871aa8c81",
+        "skills/security/security-review/review-schema.json": "eda35e754fc6a916051374de73df3000ad9d2d69632d512d605bbb7ae2591bc2",
+        "skills/security/security-review/review.example.json": "f0032053f745b117de3a71d551bffa0cc2e07733e7a5d29986ae9fba474a60a1",
+        "skills/security/security-review/validate-review.cjs": "69afc97120a830575a28d4684c311cb53fa9c3ce029ea0f27bddf9eba8bcaf88"
+      }
+    },
+    "claude-code-owasp": {
+      "repo": "agamm/claude-code-owasp",
+      "rev": "1ae29cb22518560e3625d77f2ae64f61647d9201",
+      "mappings": [
+        {
+          "from": ".claude/skills/owasp-security",
+          "to": "skills/security/owasp-security"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/security/owasp-security/LICENSE"
+        }
+      ],
+      "exclude": [],
+      "files": {
+        "skills/security/owasp-security/LICENSE": "1126322e2cc8d165adc4c792eeb195717de2bcc7b39be1ce77959d78e87ef685",
+        "skills/security/owasp-security/SKILL.md": "8257b9ad96c3fb7007108f457a704bca0c3ea23540141171403cab8900072574",
+        "skills/security/owasp-security/reference/config-and-supply-chain.md": "c7f240c8043b5ec17e5a00cafd41ec8ac82292f7d96b2d0d657e60987f89daee",
+        "skills/security/owasp-security/reference/languages.md": "f4d64e91827a79c8b8c2fbb49ff9b9649dc21dc8ebdc9938ecba92da566f4f4b",
+        "skills/security/owasp-security/reference/owasp-report.md": "fc57e570809509f61e2cecca0bbaa39c8721b88a71cee05d4b2e09f1110180a0",
+        "skills/security/owasp-security/reference/review-checklist.md": "f54e0bf87fb7a54adaab407a5472fda5f32016bf99a92c720c7cbd454d77199a"
+      }
+    },
+    "snyk-studio-recipes": {
+      "repo": "snyk/studio-recipes",
+      "rev": "3752dd05a462184dcce44af3c247f287b41e35de",
+      "mappings": [
+        {
+          "from": "command_directives/synchronous_remediation/skills/snyk-fix",
+          "to": "skills/security/snyk-fix"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/security/snyk-fix/LICENSE"
+        }
+      ],
+      "exclude": [],
+      "files": {
+        "skills/security/snyk-fix/LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "skills/security/snyk-fix/README.md": "3be46e9129485e0bfd145a33df15bdf2ce3977a787c04038f80d1cb75a202663",
+        "skills/security/snyk-fix/SKILL.md": "012bfa1bcb58cb5a00eb3844cdfd280ca9dfa8389b762dcbbe88ce1136f233df"
+      }
+    },
+    "rsc-harness": {
+      "repo": "ericrisco/rsc-harness",
+      "rev": "28a51a9100380a7fc53848a17604cebc0d2cf364",
+      "mappings": [
+        {
+          "from": "skills/tauri",
+          "to": "skills/security/tauri"
+        },
+        {
+          "from": "skills/electron",
+          "to": "skills/security/electron"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/security/tauri/LICENSE"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/security/electron/LICENSE"
+        }
+      ],
+      "exclude": [
+        "evals/**"
+      ],
+      "files": {
+        "skills/security/electron/LICENSE": "39a5064c7cf5b55a0a61667267b3c20cbd326af1d2a591b21349c5734eb5e4af",
+        "skills/security/electron/SKILL.md": "bf685e9abae00d22881abd170d449cb9633a987582c1cb244b5c87208281db5b",
+        "skills/security/electron/references/packaging-and-updates.md": "6a2200e391aa4b7aaa1ddc51176b0e34e479efd349babdf14a336164de928c9b",
+        "skills/security/electron/references/security-and-ipc.md": "44ed9c005fb4ca4a29bcaf78e7c1b632715ff96d250504fc7d33a16547198145",
+        "skills/security/electron/scripts/verify.sh": "12e0a894ed809fed87cbef04725f9e098144db3602e702bbf7890ffab59f8c83",
+        "skills/security/tauri/LICENSE": "39a5064c7cf5b55a0a61667267b3c20cbd326af1d2a591b21349c5734eb5e4af",
+        "skills/security/tauri/SKILL.md": "de3fc3007475410b93c1777b76bf43ebf39ee69c30dc5f9a97872ddb58cfda34",
+        "skills/security/tauri/references/bundling-distribution.md": "2cf7b87acaddb26b18b0338c55ca3c8002ba040839db719fa63ee66a9db4ecf7",
+        "skills/security/tauri/references/security.md": "20a7c6335cd6b36076e27bca0eae4e4fedf6022a526c7be2400aa6e1a1a41775",
+        "skills/security/tauri/scripts/verify.sh": "48d48036df3282f93b5202c49768a1fca959bd9d900512e3c5d53e97cb6da753"
+      }
+    },
+    "tauri-skills": {
+      "repo": "full-stack-skills/tauri-skills",
+      "rev": "77b57c4913873a0f8cab7db45116038dc18a27f0",
+      "mappings": [
+        {
+          "from": "skills/tauri-security",
+          "to": "skills/security/tauri-security"
+        },
+        {
+          "from": "skills/tauri-framework-security",
+          "to": "skills/security/tauri-framework-security"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/security/tauri-security/LICENSE"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/security/tauri-framework-security/LICENSE"
+        }
+      ],
+      "exclude": [],
+      "files": {
+        "skills/security/tauri-framework-security/LICENSE": "9788c988b60209ecf085939b225ef19f4b0313b35df22c230469d4ced2061938",
+        "skills/security/tauri-framework-security/LICENSE.txt": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "skills/security/tauri-framework-security/SKILL.md": "2f64112ba0b97a33e39518ac88fedf49e02c31516d4dcc3d06af6a25692f45e2",
+        "skills/security/tauri-framework-security/agents/openai.yaml": "96464d7c323008a54e8fe4ad582c953bd36e6f53fb78d606e7fe90d77483a223",
+        "skills/security/tauri-framework-security/examples/usage.md": "50fdfcb86233a5c64840312555ccd2d1ce995b8ee07eabcaf3b5d6303105de29",
+        "skills/security/tauri-security/LICENSE": "9788c988b60209ecf085939b225ef19f4b0313b35df22c230469d4ced2061938",
+        "skills/security/tauri-security/LICENSE.txt": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "skills/security/tauri-security/SKILL.md": "840bf7351128ada81ef2935981bbf573ff122fc7f8cb2500b2d64b3aa8268ac9",
+        "skills/security/tauri-security/agents/openai.yaml": "12a3dd6ab2e94ac7c32e0a12579090ecaae773e06b750883bf0414a8f097a81f",
+        "skills/security/tauri-security/examples/usage.md": "a21f203b8cf1fc30f4cae1b22fa2d88d9aa18c139fd61aa469ae0f5c66ee4642"
+      }
+    },
+    "trailofbits-skills": {
+      "repo": "trailofbits/skills",
+      "rev": "149d7b21f4067765b82e67029730b42d228ef4b4",
+      "mappings": [
+        {
+          "from": "plugins/audit-context-building/skills/audit-context-building",
+          "to": "skills/security/audit-context-building"
+        },
+        {
+          "from": "plugins/fp-check/skills/fp-check",
+          "to": "skills/security/fp-check"
+        },
+        {
+          "from": "plugins/sharp-edges/skills/sharp-edges",
+          "to": "skills/security/sharp-edges"
+        },
+        {
+          "from": "plugins/variant-analysis/skills/variant-analysis",
+          "to": "skills/security/variant-analysis"
+        },
+        {
+          "from": "plugins/supply-chain-risk-auditor/skills/supply-chain-risk-auditor",
+          "to": "skills/security/supply-chain-risk-auditor"
+        },
+        {
+          "from": "plugins/static-analysis/skills/codeql",
+          "to": "skills/security/codeql"
+        },
+        {
+          "from": "plugins/static-analysis/skills/semgrep",
+          "to": "skills/security/semgrep"
+        },
+        {
+          "from": "plugins/static-analysis/skills/sarif-parsing",
+          "to": "skills/security/sarif-parsing"
+        },
+        {
+          "from": "plugins/burpsuite-project-parser/skills/burpsuite-project-parser",
+          "to": "skills/security/burpsuite-project-parser"
+        },
+        {
+          "from": "plugins/constant-time-analysis/skills/constant-time-analysis",
+          "to": "skills/security/constant-time-analysis"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/address-sanitizer",
+          "to": "skills/security/address-sanitizer"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/aflpp",
+          "to": "skills/security/aflpp"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/atheris",
+          "to": "skills/security/atheris"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/cargo-fuzz",
+          "to": "skills/security/cargo-fuzz"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/constant-time-testing",
+          "to": "skills/security/constant-time-testing"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/coverage-analysis",
+          "to": "skills/security/coverage-analysis"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/fuzzing-dictionary",
+          "to": "skills/security/fuzzing-dictionary"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/fuzzing-obstacles",
+          "to": "skills/security/fuzzing-obstacles"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/harness-writing",
+          "to": "skills/security/harness-writing"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/libafl",
+          "to": "skills/security/libafl"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/libfuzzer",
+          "to": "skills/security/libfuzzer"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/ossfuzz",
+          "to": "skills/security/ossfuzz"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/ruzzy",
+          "to": "skills/security/ruzzy"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/testing-handbook-generator",
+          "to": "skills/security/testing-handbook-generator"
+        },
+        {
+          "from": "plugins/testing-handbook-skills/skills/wycheproof",
+          "to": "skills/security/wycheproof"
+        },
+        {
+          "from": "plugins/trailmark/skills/audit-augmentation",
+          "to": "skills/security/audit-augmentation"
+        },
+        {
+          "from": "plugins/trailmark/skills/crypto-protocol-diagram",
+          "to": "skills/security/crypto-protocol-diagram"
+        },
+        {
+          "from": "plugins/trailmark/skills/diagramming-code",
+          "to": "skills/security/diagramming-code"
+        },
+        {
+          "from": "plugins/trailmark/skills/genotoxic",
+          "to": "skills/security/genotoxic"
+        },
+        {
+          "from": "plugins/trailmark/skills/graph-evolution",
+          "to": "skills/security/graph-evolution"
+        },
+        {
+          "from": "plugins/trailmark/skills/mermaid-to-proverif",
+          "to": "skills/security/mermaid-to-proverif"
+        },
+        {
+          "from": "plugins/trailmark/skills/slicing-code-context",
+          "to": "skills/security/slicing-code-context"
+        },
+        {
+          "from": "plugins/trailmark/skills/taint-trace",
+          "to": "skills/security/taint-trace"
+        },
+        {
+          "from": "plugins/trailmark/skills/trailmark",
+          "to": "skills/security/trailmark"
+        },
+        {
+          "from": "plugins/trailmark/skills/trailmark-finding-triage",
+          "to": "skills/security/trailmark-finding-triage"
+        },
+        {
+          "from": "plugins/trailmark/skills/trailmark-review-gate",
+          "to": "skills/security/trailmark-review-gate"
+        },
+        {
+          "from": "plugins/trailmark/skills/trailmark-structural",
+          "to": "skills/security/trailmark-structural"
+        },
+        {
+          "from": "plugins/trailmark/skills/trailmark-summary",
+          "to": "skills/security/trailmark-summary"
+        },
+        {
+          "from": "plugins/trailmark/skills/trailmark-variant-neighborhood",
+          "to": "skills/security/trailmark-variant-neighborhood"
+        },
+        {
+          "from": "plugins/trailmark/skills/vector-forge",
+          "to": "skills/security/vector-forge"
+        },
+        {
+          "from": "LICENSE",
+          "to": "skills/security/audit-context-building/LICENSE"
+        }
+      ],
+      "exclude": [
+        "test_*.py",
+        "*_test.py",
+        "conftest.py",
+        "tests/**",
+        "scripts/tests/**",
+        "evals/**"
+      ],
+      "files": {
+        "skills/security/address-sanitizer/SKILL.md": "eb9ea8210fa55d50477fbe52993a704e320c88739c10d619864b6ce377ebce25",
+        "skills/security/address-sanitizer/agents/openai.yaml": "cbad1378f4912a71dec8c1c9307b806f787c559e751a5fd1926028f1c0c2e7b5",
+        "skills/security/address-sanitizer/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/aflpp/SKILL.md": "0a31023527808e68a53b81b89c7a6c10c6f84755a410df820facef44252e518d",
+        "skills/security/aflpp/agents/openai.yaml": "752597aa5e967e27ef9302de0d99d532dfdaddd7a823bca9031baac448347ff8",
+        "skills/security/aflpp/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/atheris/SKILL.md": "133306875d88bb063636a9165c56141ac8b30d3b993db3740f166693dfeecbb5",
+        "skills/security/atheris/agents/openai.yaml": "6f27be8bad0d46dae80d0bab910a0b649e22e6b4cbb85797b3edbee73b4dcbf5",
+        "skills/security/atheris/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/atheris/examples.md": "e5ed1413286ca10ea238b9952a3ef19db13e2f4b24b2aaf18ec908bfaacfc815",
+        "skills/security/atheris/structured-input.md": "0f33bf58db91eaabc2bbff2e4eec5c3811ab5a74866ce4698320dfa384d76f4b",
+        "skills/security/audit-augmentation/SKILL.md": "164ab881bfc63e77c782cfc6b67b2bb6887695425d3654c6c4d498004392b1f7",
+        "skills/security/audit-augmentation/agents/openai.yaml": "74c9300c455544a458ff6c4ec6f6409af1acfb1a2319b1eeef02044c72210aa5",
+        "skills/security/audit-augmentation/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/audit-augmentation/references/formats.md": "6cd3a692beab075ecf8aff4a2f3b5bfb25372b16be2ac796eb23b9881667ab0d",
+        "skills/security/audit-context-building/LICENSE": "7abe19ec9bb73b36141b999b861d24ad855e808bafe0f81e84cce28556f6c297",
+        "skills/security/audit-context-building/SKILL.md": "33fa693dc6e166cfa4919e4373cb6578c009d296234c2ae7cb3cd4e79b443765",
+        "skills/security/audit-context-building/agents/openai.yaml": "1d66ff830ff41ce751286d588a0ffeb95ed56d1b42e279fa2c8eebff10f4e59e",
+        "skills/security/audit-context-building/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/audit-context-building/resources/ANALYSIS_FORMAT.md": "029532945776fb0fcbc866f19cd6114fe4152cd3dea1c0f44b266ec13a2cc6e8",
+        "skills/security/audit-context-building/resources/DOMAIN_NOTES.md": "ca3090f7f8d18f7145b253b283f5d33c36b314cea231aae8466bf23f122e2ed1",
+        "skills/security/audit-context-building/resources/FUNCTION_MICRO_ANALYSIS_EXAMPLE.md": "3351010d83b61bfb34a0359498f153817fdfa6528cead54536b06e035ff2399c",
+        "skills/security/burpsuite-project-parser/SKILL.md": "6c34b59d603023bc03b2aa2b6a5788eba6be9b69ff5c4096d19c288cce3dbd13",
+        "skills/security/burpsuite-project-parser/agents/openai.yaml": "177b0940742dd7bbe2686df260eabf34b27619454eb1171212202dcf0a4b27d4",
+        "skills/security/burpsuite-project-parser/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/burpsuite-project-parser/scripts/burp-search.sh": "f38a7a59ce482981ea4de145ec789d2095c2304b98035b78fd5f0714dcc256af",
+        "skills/security/cargo-fuzz/SKILL.md": "8e8f882604f68c682afde3562ba1bd3828264fd226f427ff7d9ba50617268db1",
+        "skills/security/cargo-fuzz/agents/openai.yaml": "47f03f324880b775d289e9970f8afdd4d96302c596ee3ae68ed2051885414211",
+        "skills/security/cargo-fuzz/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/codeql/SKILL.md": "1a6d919ff80f83b262daf650552af6eb6d2c32b19d0c529b70efe0c116b675cf",
+        "skills/security/codeql/agents/openai.yaml": "c6efac43fae29e05e5ae324212fab758247aae62701c45e906ea03d7c3eef8ef",
+        "skills/security/codeql/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/codeql/references/build-fixes.md": "e4af17ecbe5a6784e3c011fec1f093ce25e5c852cd92be97caaeaea0be10ca1a",
+        "skills/security/codeql/references/diagnostic-query-templates.md": "c27a979094f8de6d1d341a838de52952a98385ff75c9439a7e76ba3bb3fbe662",
+        "skills/security/codeql/references/extension-yaml-format.md": "c98903da4f21fd94816c520f6fdaba8d12e08b4bd55f85233c487e3baf39a1a6",
+        "skills/security/codeql/references/important-only-suite.md": "9f2fbb57b0e02fe964ad268b11ad88c9598b38314fc008016caa615cf303b3a5",
+        "skills/security/codeql/references/language-details.md": "f0857914eeabfb96929c2d1a8f086e92c0a3973cc2ac8460f371fedc2d023818",
+        "skills/security/codeql/references/macos-arm64e-workaround.md": "72d7c9fc2be8368968516857fe4e32211473b92cc8bc3ef1d28530aaf744d1fe",
+        "skills/security/codeql/references/performance-tuning.md": "536473b91e8574c18a3a943df2e4328615bbabbd899c76827d345ff7be986b7d",
+        "skills/security/codeql/references/quality-assessment.md": "2acbb61d487211a0d6342ef86f774de3d4e05496185d337e09cb39810bcae08a",
+        "skills/security/codeql/references/ruleset-catalog.md": "2b139ae593865548a596fb5b78694cb09d4a1959beb5225a5d8a914155a72165",
+        "skills/security/codeql/references/run-all-suite.md": "bbac653d6e8ea115fa7df47307729745157bb60868939a71167c30cc18dcffb6",
+        "skills/security/codeql/references/sarif-processing.md": "abde04ca479a372ed134150cd9cd1fd2b45cd7b4b45386034a2b3f4d415f6f9b",
+        "skills/security/codeql/references/threat-models.md": "fd4252f0fc71734ab756ff51bead1b894397bf67382b2337cbe0b0de4672cefd",
+        "skills/security/codeql/scripts/build_log.sh": "83c98d08c85a96b0b46246c14f3ffbe61370f5d184338455c6c288ddcf8df5de",
+        "skills/security/codeql/scripts/check_db_quality.py": "fca99a149eb4689730b7d3a3314527a5716823fb5f19b6b79114f4949b726c36",
+        "skills/security/codeql/scripts/find_databases.sh": "a56995c048b322bce45baf4482388a3cdf78dd59d562eca39e169c065f7f9b18",
+        "skills/security/codeql/scripts/generate_suite.sh": "489516c52155c2061ec2a53d8190ebe474f4bdcb53ddc53b1216dc72ff7b1d9f",
+        "skills/security/codeql/scripts/pyproject.toml": "c78fce8eeb7d91895dfc44296bdf547bcf77a156c8c057ae5238032883dfa41b",
+        "skills/security/codeql/scripts/verify_query_suite.py": "ad1bb120201c9af5ae199d3d36a727ba12d897162f817045e8a8006e691154f8",
+        "skills/security/codeql/workflows/build-database.md": "06794bb67182303b0c81d30b3772531537d9f986b7b2cbe2a9ffa4b4f3e230ba",
+        "skills/security/codeql/workflows/create-data-extensions.md": "f3643e4916e7586c7738c14f781e3919bce35129d75beb00812b963efbbc4673",
+        "skills/security/codeql/workflows/run-analysis.md": "83b0e0bccdb7f9f3962022b4477bcc888a6728eebcd25495378a860da72930c6",
+        "skills/security/constant-time-analysis/README.md": "69353d95aac7751a89234f28c4f7a758af591e66a1eac32f07f098dc7b9b041c",
+        "skills/security/constant-time-analysis/SKILL.md": "4807f710a234e2520d7e163cc5a0e55785a495b2790dadcd7f0952dd6bff8d07",
+        "skills/security/constant-time-analysis/agents/openai.yaml": "ab3f0616443b01e2f80d140421a92750094675c7554d43e5b68a746fe9028678",
+        "skills/security/constant-time-analysis/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/constant-time-analysis/references/compiled.md": "7c6f69897fc9629c4f26011507685e6cb4b79f1e1881f6f3a23d8e136f1d42fb",
+        "skills/security/constant-time-analysis/references/javascript.md": "77cf536e1a123cf05927deb21a8da26e72308296370af314475c50f59eadd5ac",
+        "skills/security/constant-time-analysis/references/kotlin.md": "798bc4c6d9ba1195e93d8371780866b09bccf2e096ccfa8aeb20dcc9af0a8c9f",
+        "skills/security/constant-time-analysis/references/php.md": "59dcadfb56202fe6ecaeed933b968c44311adf51366e6cc2720342a880334d33",
+        "skills/security/constant-time-analysis/references/python.md": "6f89ca8a5e54a2aa50e1c39783d2bc0f8b1fdbd6e771700b4b8325069fdc565b",
+        "skills/security/constant-time-analysis/references/ruby.md": "51f08d9c9d74a1630866ed5b2867e39aa77b5f9f5a3a6153d215b98669b1b5f0",
+        "skills/security/constant-time-analysis/references/swift.md": "419f8a9a3fc0944a064b3d4a9e473a91bd38d907a37b234d819cd8de62441226",
+        "skills/security/constant-time-analysis/references/vm-compiled.md": "dc6b012f43e383ed30047642673e23d91b73cca49efdabcb940550d9edb30a0b",
+        "skills/security/constant-time-testing/SKILL.md": "d294126ee90dbb949261145fbf1fb05dbbeb1a986320ba597b746fa4068f0028",
+        "skills/security/constant-time-testing/agents/openai.yaml": "6df1a20081789ace08a350b235d8cdd05a4be44aec556a07c2c9cb7a0cf87990",
+        "skills/security/constant-time-testing/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/coverage-analysis/SKILL.md": "9f71cfaffec44f159aa333924a25cdbe3eebd221cc7c0b0175fb93794d3ecacc",
+        "skills/security/coverage-analysis/agents/openai.yaml": "8d2c04a218973d10ece0de787836ade740f6c6a72a5dbbe471c472e58912e72a",
+        "skills/security/coverage-analysis/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/crypto-protocol-diagram/SKILL.md": "11e665a8180bfc5dcac16cb4baa01100f83d6875b2d38dcd54ad6866f9b04dbc",
+        "skills/security/crypto-protocol-diagram/agents/openai.yaml": "15d2dad004d37e2b8cbcfe5bb11a2841942d62aecf4b65e344463ec029f51de2",
+        "skills/security/crypto-protocol-diagram/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/crypto-protocol-diagram/examples/simple-handshake/expected-output.md": "d1b782cf4181e6af43efa74b907a86d2cb3332842027160350518121979b06ed",
+        "skills/security/crypto-protocol-diagram/examples/simple-handshake/protocol.py": "bb0cdf0534372bfb05ab078dd8d9b163dd3469c03b43caeaf96c121fc8a04318",
+        "skills/security/crypto-protocol-diagram/examples/simple-proverif/expected-output.md": "1f8f409ac8c70600f771b24c58b76bd5cb80ab2458be4c08d9d2478536ed6933",
+        "skills/security/crypto-protocol-diagram/examples/simple-proverif/model.pv": "ded2b83e2a6fc5b85db40f50d7932b66e397472aa3542ce24eabf6bd9be48b32",
+        "skills/security/crypto-protocol-diagram/references/ascii-sequence-diagram.md": "3eebba0a3fbfe4205f7f165c5030e42b45d0277d4b33fa979469ead0565cd7b1",
+        "skills/security/crypto-protocol-diagram/references/mermaid-sequence-syntax.md": "a7fad0d407bf498e5fed25fbf0e14431b3c0e178b9c788d9fd9e8cf56ed5c8d8",
+        "skills/security/crypto-protocol-diagram/references/protocol-patterns.md": "73b20f76afc1f9e06028e821f1c49bc69ca279ce622a76294a9f7c438966fb96",
+        "skills/security/crypto-protocol-diagram/references/spec-parsing-patterns.md": "0be275fc4015a21538985213531800827860c8a3cec8c303c60a5ec0a3a6088d",
+        "skills/security/diagramming-code/SKILL.md": "1af57963c6d8c68eec1c360f3ee4cfec5be7c163a3c01c701f58a67980fff910",
+        "skills/security/diagramming-code/agents/openai.yaml": "109d4686a5c4b9b23d35d32902c78987947f95dc679da6451d73e6ca04359b61",
+        "skills/security/diagramming-code/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/diagramming-code/references/diagram-types.md": "f87a59e21779510920fe3b76c1f4d17f0776a24fed0193f836e982b622394e73",
+        "skills/security/diagramming-code/references/mermaid-syntax.md": "5932e0ecb7cfa4d49e5fa54af723880eeecdf1a9419e87ff05ec7021270b53b4",
+        "skills/security/diagramming-code/scripts/diagram.py": "a619c23ecaaa73f3acf6205b088c70b22a92b065beb35ca0aa3308efa36a3682",
+        "skills/security/fp-check/SKILL.md": "129223b79b8cb1e7c289c90cbe4ba288d9b210e318a0d1464f319e30329481b3",
+        "skills/security/fp-check/agents/openai.yaml": "7c0420b00c25c4d1ab70497fbacd47e6687d9310d1ede4d11c285d3a0c7fc309",
+        "skills/security/fp-check/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/fp-check/references/bug-class-verification.md": "b687b0fddb945354175b653a86653087110717ffe21f0bb6b8ce95535643fdde",
+        "skills/security/fp-check/references/deep-verification.md": "653ee21c3ab73f8ca6aa0a7c8e51a9195c90bcfa76533cb966c41d16baa52ffa",
+        "skills/security/fp-check/references/evidence-templates.md": "340346b9c6b3b43aa7edc71ff09351c910bc8aefec62647d2284bdf637a59e3d",
+        "skills/security/fp-check/references/false-positive-patterns.md": "868c4e3f794c95a11c177ff4999c30eb71ebafcbc0e30ab826761b0d17b17a7e",
+        "skills/security/fp-check/references/gate-reviews.md": "de4fd3680496b6f622b25dd5d8459eee1fe95e2cf61aa533c5ff86c548d6acc9",
+        "skills/security/fp-check/references/standard-verification.md": "09032334d472b0fd796fc13f6d95cf6f0ae98cce34f1aa8dbd0c3fdce2854710",
+        "skills/security/fuzzing-dictionary/SKILL.md": "b71fa7cab36ca466647123efa07c665c1968661f6d5060d9ac0cbb7f7599f7e0",
+        "skills/security/fuzzing-dictionary/agents/openai.yaml": "97e12eb1aab9cb4196c5b3a3bc603094563c4898996479acf48d0dacb014ea3b",
+        "skills/security/fuzzing-dictionary/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/fuzzing-obstacles/SKILL.md": "7d77500c3e0a2db1ce5fd5dbb0559b802a621c63110dd8fd4664f0bf1634a3b2",
+        "skills/security/fuzzing-obstacles/agents/openai.yaml": "b7ccf5d1b51aec804c999c16c957fcd9178b63b8e45515a8706f15d19878616a",
+        "skills/security/fuzzing-obstacles/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/genotoxic/SKILL.md": "cfbb30f69e91f2b04a14f426ef4442164edeea8c00041692067121b7baae6e09",
+        "skills/security/genotoxic/agents/openai.yaml": "122468bcf61b2c44fb026a8786bfcc037e650c428ae7f7fe487692a03717d39a",
+        "skills/security/genotoxic/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/genotoxic/references/graph-analysis.md": "6a4a8d1a2438ad67381a51d1da258ca3e1af37ad56158385f878ca86c746ec00",
+        "skills/security/genotoxic/references/mutation-frameworks.md": "87b17aad65a9a9b1e337e67131c9d288239ca7f7254778b9a4890428d8cef0cd",
+        "skills/security/genotoxic/references/triage-methodology.md": "f2e377f94794dce6e271c2c17b95cad9e3ac9cb5522654a57e1c664dab23408b",
+        "skills/security/graph-evolution/SKILL.md": "009055f8ad529fd9fa3bfe58c510fae79cf81d8b3d16b31b27a86ec248797618",
+        "skills/security/graph-evolution/agents/openai.yaml": "c375b9f387a9414e9710b24c1ac136d19d26975bb1cb7a48ab1364aa62a5b0b4",
+        "skills/security/graph-evolution/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/graph-evolution/references/evolution-metrics.md": "ec26ea932290be3490227025705296126e446743a64b604e11f7a50fd649f722",
+        "skills/security/graph-evolution/references/report-format.md": "cc44977216b7e90075c6fca845b630d7156e72d88f1234fa3f0026d367d1a0db",
+        "skills/security/graph-evolution/scripts/graph_diff.py": "4cb00ee257d45e464e7679f654261791b3b21f2c92f7887e5b306b1de62faa55",
+        "skills/security/harness-writing/SKILL.md": "8efda12f4ab61a7eef4daae88affc7649695d8db5fb2c2a33a78dab2a3fe36c0",
+        "skills/security/harness-writing/agents/openai.yaml": "ec1c365b051bfbcca2f3495c8eab440939d890064f6e20d51d4650edd649723c",
+        "skills/security/harness-writing/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/libafl/SKILL.md": "2f7f261439c2d87a15ddbb8a04a387fb8c211b9f20b00baf28b1466e036fc0d5",
+        "skills/security/libafl/agents/openai.yaml": "1c34ee90a1581e4a35f897f5afbfea3527bd1906ce864754b095a39acf0c1b60",
+        "skills/security/libafl/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/libfuzzer/SKILL.md": "56b2c68b193f7fed4ae00ade6c6395196d44612d140ad51de43d150404dde2eb",
+        "skills/security/libfuzzer/agents/openai.yaml": "0edbd68f53abc679b392ac26315d4b3fb0647119a27babeba05b59120f806cb7",
+        "skills/security/libfuzzer/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/mermaid-to-proverif/SKILL.md": "705339f9f8e942319a73489d67e02ac4a6f52f7fe69900b8662fb28adb681989",
+        "skills/security/mermaid-to-proverif/agents/openai.yaml": "303918dc08b140feec04c9281150b8dd2cf1c06fbeb692e6c81878b1039c3077",
+        "skills/security/mermaid-to-proverif/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/mermaid-to-proverif/examples/simple-handshake/diagram.md": "04fc49508ead6b829bddfacd28e97f5f0fdb39b94992180874af36760871b6eb",
+        "skills/security/mermaid-to-proverif/examples/simple-handshake/sample-output.pv": "a8e9ad3388a19296b472db72abc9d5807032e106b3e8a4caef0f013383466476",
+        "skills/security/mermaid-to-proverif/references/crypto-to-proverif-mapping.md": "6a74edc1b644d51de628b2f324ed10176b9697155a267f46f203a2c2b9014707",
+        "skills/security/mermaid-to-proverif/references/proverif-syntax.md": "5a481e54cbf5ec718d1342f8443ab654bd36c907736ca5137d61af346d7efa74",
+        "skills/security/mermaid-to-proverif/references/security-properties.md": "5916485d1a36afcfadfcc52243e06fca259d97feb7489a5871f0bc99f15734c9",
+        "skills/security/ossfuzz/SKILL.md": "aeb1abbcac5ae5e4a73be4bb923fc9cca20d8d1073630c2e0a1ff37fccbec598",
+        "skills/security/ossfuzz/agents/openai.yaml": "2f96585714adcae65c3f94acb4801243184323f2570a7364ce1eb98c8d317523",
+        "skills/security/ossfuzz/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/ruzzy/SKILL.md": "46374463b7ff99b028692ed8d30f1c9f488597597e5a2af4ad3919e2a47d6ce9",
+        "skills/security/ruzzy/agents/openai.yaml": "5d5268e23a94e15dcbab8604066a3b00e4ab4fde60c666c763e035567b85d8af",
+        "skills/security/ruzzy/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/sarif-parsing/SKILL.md": "cc5f008f40ffb8a1ae03ebd32d7234de43e828293955a0bc251b76ba249554fa",
+        "skills/security/sarif-parsing/agents/openai.yaml": "6385b46a44aad5b114744dbc2055ce3f6456c0e822b92a7a6c6870f2a248014e",
+        "skills/security/sarif-parsing/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/sarif-parsing/resources/fixtures/codeql-no-level.sarif": "edc92b09e4d8b1247ec87f081c68caa1843d8407063508ad33aab13327ba386a",
+        "skills/security/sarif-parsing/resources/fixtures/levels-on-results.sarif": "625e8175a3c68d0d11f7e4c14095dddff5056d52a539e3153180cdb37ce50c6b",
+        "skills/security/sarif-parsing/resources/jq-queries.md": "f44ec4e219c93504ec69fdeb2c60668ee3934585e5565fffdaa43f6b224b5d6a",
+        "skills/security/sarif-parsing/resources/sarif_helpers.py": "06d8e63849bd2b93baf31b23a33550447eed2ac457c2687f173933039e5ad247",
+        "skills/security/semgrep/SKILL.md": "52162605593f871cf45f48f9cf00b7c2d7e0759ccb7507981088442b7cc5d76c",
+        "skills/security/semgrep/agents/openai.yaml": "b200a52900687f8176cb5d8230a29e5e80c8317337efcdcf87754e892129cd89",
+        "skills/security/semgrep/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/semgrep/references/rulesets.md": "e641bf7b2f32cd81b2623759f72a560dd96f6747f1295157f2984fe8ebac3f74",
+        "skills/security/semgrep/references/scan-modes.md": "99ed0ffb9e9ee68bcb175da469f1310f28f96e356c69c65918a0afc430027d3d",
+        "skills/security/semgrep/scripts/merge_sarif.py": "8b6094e18a0e4d36250c72c81903edac914552df7eb2a7eebd1ac449d105f7ba",
+        "skills/security/semgrep/scripts/run-scans.sh": "ac3d815dbd5cdfa0419596411058378ab659bd243c7dc87495114e773aa40347",
+        "skills/security/semgrep/workflows/scan-workflow.md": "ddb630d34a51a749157140d71fd05044b09301352126f2c169a3119d5eb1d1a4",
+        "skills/security/sharp-edges/SKILL.md": "3b69a709c2f8f0cfcf57d40a3186e166f307865cc8ed924be4098e549a121e9c",
+        "skills/security/sharp-edges/agents/openai.yaml": "d18c31ffb600df69db714161add9a1fe1dca38011b52a0c8926d4d4d3fb1ea4f",
+        "skills/security/sharp-edges/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/sharp-edges/references/auth-patterns.md": "1fbf526ca1db7204f9ebb1bf4eb3c48c544676623d23e5d28e01f6f63c355be2",
+        "skills/security/sharp-edges/references/case-studies.md": "2e81a320728b4597bf84c490176d5bf212f1e6ba6f87aafba61ad1734de35332",
+        "skills/security/sharp-edges/references/config-patterns.md": "1d99f2716f7bef18efe71015ce0c56e0f4961c042faa503d796d6d4d1626fdc6",
+        "skills/security/sharp-edges/references/crypto-apis.md": "8baddc83a1f964d6d8b15678d60a37c93029c18dc162bd7c00895e585ff1a825",
+        "skills/security/sharp-edges/references/lang-c.md": "d077d711c73749c924eae81c06018b14bbf1ec9b93d71723c472b43df5d7d5ae",
+        "skills/security/sharp-edges/references/lang-csharp.md": "8fa9e93d36c0e1397b7ca81307163370fc43cf700215b7c6d7aa1b09fdb91fb4",
+        "skills/security/sharp-edges/references/lang-go.md": "839c0e7b4e3fa2f3b37c651e926aa59d69d20bfef5e67f569eedacf11354844d",
+        "skills/security/sharp-edges/references/lang-java.md": "3b93b6049f7e0e356a1ffebc0b4642f3cef315d90be45b63e15c8c4814f9ebeb",
+        "skills/security/sharp-edges/references/lang-javascript.md": "cf72f55d31318666942a8d1d64340befc3c4e7223afc2ca196e6a776ffa4c895",
+        "skills/security/sharp-edges/references/lang-kotlin.md": "c891148c10a4941c3396416a10ac64512eb3a9e13ea5eeaec3902da4b51501dd",
+        "skills/security/sharp-edges/references/lang-php.md": "7960d9773874cf06c5b470a5ca3ab406d896e66b71e713d809bc1ecfcab63485",
+        "skills/security/sharp-edges/references/lang-python.md": "36543becc25b4e3f41eaedcab62e9b204657e6742b8ac95e405bcd040d33bf03",
+        "skills/security/sharp-edges/references/lang-ruby.md": "d9ba749caaccb8a3bb39e2199b2062c0957cf48739218ba8022d49be5cba2088",
+        "skills/security/sharp-edges/references/lang-rust.md": "3d14993ea70b2b2df3fc0f388cbd1631470895c27ccbd9d764296d1da8f5b6ee",
+        "skills/security/sharp-edges/references/lang-swift.md": "a64ab8692db0f3e43526088c63c7fdcb7354d1b24e6fe7ca759aea3260890e04",
+        "skills/security/sharp-edges/references/language-specific.md": "4522b4a37cfd7d3aa689209dfd4569f3b39074bd1f5987a36a6e819f501141b6",
+        "skills/security/slicing-code-context/SKILL.md": "72ea4b2adc22f0c9d64b1f7846517fb285d8601e30a693126a4d3e133d0e97fe",
+        "skills/security/slicing-code-context/agents/openai.yaml": "1be7b8d4175cd04bafdd84fa6257621b8c521736d9c2715a6f05fcf74f9cfd7b",
+        "skills/security/slicing-code-context/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/slicing-code-context/references/slice-packet.md": "43be7a29cc733b3e8fa643356cb9ff46c07b68f6d5f92e37b67134edef353ae7",
+        "skills/security/slicing-code-context/scripts/build_slice_packet.py": "16f29d4dc4b2623e33cde9ecccc66528a15764acf8de3c8f321a84df3fe7a204",
+        "skills/security/slicing-code-context/scripts/pyproject.toml": "4c9d630627b16e62b1061ce403ea2a7e3df0d761bac9994f1c0d2bfa4762365a",
+        "skills/security/slicing-code-context/scripts/uv.lock": "99611c9e1b15849ec2be04ebedbd13ebf5f4b98fe943ec7028de79d43420af3a",
+        "skills/security/supply-chain-risk-auditor/SKILL.md": "a1254b7f8d3a1731a9a7e1f9cd6c67b59cf84ed6ef7c7fb455db9a14c528ceb4",
+        "skills/security/supply-chain-risk-auditor/agents/openai.yaml": "7d79ce0a77aaa1e2c72939b02b285b13a84d9da85ffb965a9d1489c358cd27ab",
+        "skills/security/supply-chain-risk-auditor/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/supply-chain-risk-auditor/scripts/collect.py": "fd75cffad628980a6da521b5d3a40fb5dd16c5bb9ad63a25245e5208d08abff7",
+        "skills/security/supply-chain-risk-auditor/scripts/model.py": "78a20954b76e81216991b57453ceddbdb867035a0d6993b98cfa05a7f8d008d3",
+        "skills/security/supply-chain-risk-auditor/scripts/pyproject.toml": "a79ec30039ce3bc90544b9d833f7edc128232821575736f659d2b2ca0a601f3b",
+        "skills/security/supply-chain-risk-auditor/scripts/render.py": "9d6091645c8a8edf5c50d24bd70ff881efa30b920d93b46ea1775ee2dd328bc7",
+        "skills/security/supply-chain-risk-auditor/scripts/sources.py": "4eb66952dca285b4790d1193b39f240e8015025ee054a215f4c696cbba2478e2",
+        "skills/security/supply-chain-risk-auditor/scripts/uv.lock": "99598cc397a42c945abbc9d839d1c61f1852f414660ce41e2e68bd9cdf664100",
+        "skills/security/taint-trace/SKILL.md": "f05d4e3984437c09d469ccc8cfa9dcf65ff448cc3d960dfc2b6f32241c6e6338",
+        "skills/security/taint-trace/agents/openai.yaml": "c0393f65e1bb88de59a4c81a5a19949b501c18fe49ee22c3300e0285a97a765a",
+        "skills/security/taint-trace/references/artifacts.md": "3366525743ec5bc9eeab433e83cb594c8c6b288abebe7b923efd61ef644e7333",
+        "skills/security/taint-trace/references/catalog.md": "1c3502249ded08c477005615265c1bf7f8b2b2d179b897fea85d58f376c37171",
+        "skills/security/taint-trace/references/checker-framework.md": "d4e74dbbbe289f5346bca67763adbddfba47b6d222c6aeba7c406aa9bd61e248",
+        "skills/security/taint-trace/references/clang.md": "eb03086bf71ccb08cdbc0c3a85bd8258dff697296ae2a91dc8151b9a87debd7a",
+        "skills/security/taint-trace/references/codeql.md": "6aa2c93951a2e09941dc3854b5b8cef25cd96a579594e99f6b8e020b899d1bdc",
+        "skills/security/taint-trace/references/graph-evidence.md": "8dc3112a3e14048fb9332282e788f1c100e37ed20ca71fc39f9f6aab4c090b5f",
+        "skills/security/taint-trace/references/infer.md": "99f7a5d570f11afb74b6996a616491d718b8f78007c56fc806b8bb5614e0909e",
+        "skills/security/taint-trace/references/joern.md": "54a6268414660bef46a2ca07a9e8190a05a248869ea57586d8932b01a01ef251",
+        "skills/security/taint-trace/references/model-quality.md": "df5a3cf23b504c8bd435fba104c79d13ab7566cf7604246c9bc679adcf7411cf",
+        "skills/security/taint-trace/references/opengrep.md": "a61156c8341f077f2c4dda29db5f7be742d3765aff4782663e911107019131a6",
+        "skills/security/taint-trace/references/psalm.md": "c63e8535bc5d03234183c92dc8a61d1dfbfe450f73cae1cd40e833c93ec75f1e",
+        "skills/security/taint-trace/references/pysa.md": "9ddadc6201581e099c29ea50b56f7e92be44f74a29d6f30bd06db6cb07f4b087",
+        "skills/security/taint-trace/references/semgrep.md": "3e2ba513e4aea5155e4514c0b4973ac785b064e9483a2871fba0cb4a2dbe986a",
+        "skills/security/taint-trace/scripts/activation.py": "fb5d869c9c0830776f5691b711f5beb5cd32b92a58c515db13dd7ba39fd58fe3",
+        "skills/security/taint-trace/scripts/catalog.py": "dcb5fa13334cd450c63baa63def0052ee6dcb908595ee164a22c0b345a13d62f",
+        "skills/security/taint-trace/scripts/contracts.py": "066434247de976d8855abebb3aa0d738c751b7ddaa37adfd364af8162e8fab43",
+        "skills/security/taint-trace/scripts/finding_comparison.py": "a1ec0865af0c6e49a05679272b82e423dc7d32a9a099f8340d07358f906e14f0",
+        "skills/security/taint-trace/scripts/graph_context.py": "684a5ca5401bc9598e76f06946b02f78c10e59b4c9f4db7328567177b06f57d4",
+        "skills/security/taint-trace/scripts/joern_fixture.py": "416e71f32f81d33f4d3db6dc0fd55b4cd77ae564304e3c2d0440537463ef479a",
+        "skills/security/taint-trace/scripts/manifest_validation.py": "c03094403d7e5641bcd328aa3110d0f4cf36e727d2c762899a02a3760c9cbab1",
+        "skills/security/taint-trace/scripts/native.py": "cb0c29e47903b4aae20ceefdb919a6c2ba99400b886b100214f5b21a1b282dfb",
+        "skills/security/taint-trace/scripts/psalm_feature_probes.py": "bdd9688ba00418e4493a58116ec4abac29d85a4b250de85faf62cbb3dad07839",
+        "skills/security/taint-trace/scripts/psalm_features.py": "91e8ebc5ca3de4852d77daab93a626f5b3c20831ca3b6dc0c24c33dcb3ee0f0a",
+        "skills/security/taint-trace/scripts/psalm_version.py": "00adeb7525aa6ebadacf590a6dd6b18762290185dc9a1cb8754dbca2bdd8a02d",
+        "skills/security/taint-trace/scripts/pyproject.toml": "bcb39c52ed52d23226d219b967c2ad5f001b6c9a961381357d7f822981b89440",
+        "skills/security/taint-trace/scripts/requirements-test.txt": "71c8d8cfdf71eeac1daa834055fb67509a0dc491a86caa72f4734bd9c6bb7de9",
+        "skills/security/taint-trace/scripts/runner.py": "d4cb8d60e02f69e8163d888fc284d31f020f403ad664d074e14ef718f381e74a",
+        "skills/security/taint-trace/scripts/runner_artifacts.py": "01468fe5737fdedb23815c8b19d16546ec1c9f6bcd9f3aa35b101717ff4e446c",
+        "skills/security/taint-trace/scripts/runner_config.py": "81260bed5c745ec49bdcfe4578fcdd6914a3f47cf480c0087c7b56f6d78af280",
+        "skills/security/taint-trace/scripts/runner_contracts.py": "cc583f231dfb972a872c51e2e46b0eb649ac1291e6c5ad01e120f72fedbd749e",
+        "skills/security/taint-trace/scripts/runner_probe.py": "68cc88c432bf633dcbd6c27289f2faa8d8a4e634f37aa571baf306e629a5eed8",
+        "skills/security/taint-trace/scripts/runner_startup.py": "0736c69021ee225ac8c622e2f113eaef5084e85c07eb945c259b63bd33fb77f0",
+        "skills/security/taint-trace/scripts/taint_trace.py": "e5a711606cd057a09cfa7684e3ec5dc46b010954389d50a053327a80dda67dc8",
+        "skills/security/taint-trace/scripts/taint_trace.sh": "7d51cc42fbc41b9eff4472970e068535b03604ad8e8bdb702b487d60592e2dc0",
+        "skills/security/taint-trace/scripts/trace_artifacts.py": "f451804410ab4fbc0684024ad1c9fafbfdf732b7e759cfd211bce24f8587430a",
+        "skills/security/taint-trace/scripts/trace_report.py": "eab02a6a48b5de2d4737e305b7cf8b71e2d03e424c6ea9fc057d74cf889be525",
+        "skills/security/testing-handbook-generator/SKILL.md": "84d2022bff1675f77f71a219aa3999b01dc3fcfeff1666965177195ecf808aaa",
+        "skills/security/testing-handbook-generator/agent-prompt.md": "504b2f1ff37f118184085c35029b25d7934e85ec445982a9af12586f526e90e4",
+        "skills/security/testing-handbook-generator/agents/openai.yaml": "f6fe9c4c647ef8a6eec59f495c4b2947d99e0145a073ecbd10621e37165e9dd6",
+        "skills/security/testing-handbook-generator/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/testing-handbook-generator/discovery.md": "2bc2412af856e91ffacefb85a9f98811fe7238c99b485c03cf206969fee9dfa1",
+        "skills/security/testing-handbook-generator/templates/domain-skill.md": "da2c65ad7d1795f67846d6c5d844c77727b7da7c82ce82bbd387c2d288eb201f",
+        "skills/security/testing-handbook-generator/templates/fuzzer-skill.md": "d83c4f95b97376a5f146e943fbd981cfbb6a9b786c5342edd2c63c4ca2ea5f78",
+        "skills/security/testing-handbook-generator/templates/technique-skill.md": "565e05f3419c088c852595a918595b844cf2e4db91b9783c3047e431c0802121",
+        "skills/security/testing-handbook-generator/templates/tool-skill.md": "4d36ed99022e09df35a948b45d19251ea44089618eef2da24ca01998cff2ebc2",
+        "skills/security/testing-handbook-generator/testing.md": "3f7b53df6bb98679a7da30420d9e85b1f5fbb728faa425d1b176753870935c64",
+        "skills/security/trailmark-finding-triage/SKILL.md": "51c7b9346866b1350295e84fb1cf23f9efee523e67fc5d6cb49631b242ddb4f8",
+        "skills/security/trailmark-finding-triage/agents/openai.yaml": "39998c99587b2a460c46df319c9196bb1f0920431ad3a391aa8f50d6f75d6116",
+        "skills/security/trailmark-finding-triage/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/trailmark-finding-triage/references/input-normalization.md": "12ff637d5817f93db5c1b29f2ae6e0789cbf720e3c537576f4be035a02bca99c",
+        "skills/security/trailmark-finding-triage/references/output-format.md": "69deec7c2510445db418ec9f05a8c29eaee35d6bb94041167814b13b1c85a35d",
+        "skills/security/trailmark-finding-triage/references/query-recipes.md": "1f4ea3a9f3ef97a8b1f387f9c52888a15bcb4e111a84823370a6b593440b6f57",
+        "skills/security/trailmark-finding-triage/scripts/evidence_packet.py": "7dbd5cbd10bc34154468f6d9d25941c4b8d7b4612e967beb0d64b7241b3d8c70",
+        "skills/security/trailmark-review-gate/SKILL.md": "fad45861eca1e8fe7c44d20a178816e5fcfc2c00f01835ca8a1991dbd7241a9f",
+        "skills/security/trailmark-review-gate/agents/openai.yaml": "20b033a8193ccdb317f5bb9e746aff50682b257e73d112246547af6c7fa97f95",
+        "skills/security/trailmark-review-gate/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/trailmark-review-gate/references/gate-rules.md": "dff93b5606f6c2bbae013299925f2f8a48d0349fdb3d7b6dae838241f6d6e9d2",
+        "skills/security/trailmark-review-gate/references/output-format.md": "2d98fcb94cca3a73db481d123262653870a150e139ff29eec9d7905a94d9778f",
+        "skills/security/trailmark-review-gate/references/review-integration.md": "13d13913029ec06fa489b294a932ba4e9900929ed4455649756a82e6ed80e146",
+        "skills/security/trailmark-structural/SKILL.md": "7716c9069a3f216f26c69d2324953824b9578b59e0f746accd66c236ebd0b50a",
+        "skills/security/trailmark-structural/agents/openai.yaml": "63b5e1a1a66f8d653b5aeb9c049ea2d9678713892c5c95e223956da8995bbb66",
+        "skills/security/trailmark-structural/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/trailmark-summary/SKILL.md": "c6a6b5feb7bc3eda3b45140be8aa01f5a5c5c8cc2454918ad1da98080815bf48",
+        "skills/security/trailmark-summary/agents/openai.yaml": "b2a69e67af8dc3a8ec4f6174dee885750a971022e02289ee280fad03db363779",
+        "skills/security/trailmark-summary/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/trailmark-variant-neighborhood/SKILL.md": "e49b232b46dce59ea2fd68a1c1dda25d83cee6717cb2921346184665bf7ecb4c",
+        "skills/security/trailmark-variant-neighborhood/agents/openai.yaml": "850f6458adcd601204a5c613629282ab35870cd93f6617c625825221bc8931f0",
+        "skills/security/trailmark-variant-neighborhood/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/trailmark-variant-neighborhood/references/neighborhood-patterns.md": "2640412ab02ef354b0cbc1da08798f57e016b77a394a249f982df9f14a53f448",
+        "skills/security/trailmark-variant-neighborhood/references/output-format.md": "f2381c0728c7273fafaaac1882c601491e9850c238e44b60d5106fb3459bf614",
+        "skills/security/trailmark-variant-neighborhood/references/ranking.md": "ed0a957618e25cb77e6003a44351884ba73351b9eb2bab2b0ff5ff6b1661a57f",
+        "skills/security/trailmark/SKILL.md": "616e2272ed39e077add3ee7cb55454aa297ce573f1600b09fab1010b27c6f1ae",
+        "skills/security/trailmark/agents/openai.yaml": "4acf4d48d583e25aa03c520fb4818e22dae86edf321a153e95b4be0cc9d7862f",
+        "skills/security/trailmark/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/trailmark/references/preanalysis-passes.md": "939cb7f9d0cd9d2d6d899b4c1e26625221b2f1c28a11b397844c338972fae5e5",
+        "skills/security/trailmark/references/query-patterns.md": "e8e651e753960804e1426b1bc73c0680e594a9905561eca5436e05d609cd4050",
+        "skills/security/variant-analysis/SKILL.md": "7b6b78e499bcb88d05c68254ffc91ebc28edabf4e9808adcc40e2628ebb9407e",
+        "skills/security/variant-analysis/agents/openai.yaml": "6d6b67250ba8300e79491ac12e73262f54f2bf50776276fd04607ae4e3006fde",
+        "skills/security/variant-analysis/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/variant-analysis/references/reporting.md": "07a1d8f25537ec3da44b7c6e484bf922ab2eeaee733ced6df423df7bea517906",
+        "skills/security/variant-analysis/references/root-cause.md": "b4556f22adadc894b22c8df01d98bb94596d4e035386c780fbca73594014660c",
+        "skills/security/variant-analysis/references/searching.md": "22834e63e7412220feec9bd1d4cfd9298c17679489ad66d13be450928bf5d158",
+        "skills/security/variant-analysis/references/triage.md": "f1f0277096ae41641be311c783f2f7a1c677c2c6b6e8a485986d8d5ed7fa3653",
+        "skills/security/variant-analysis/resources/codeql/cpp.ql": "efd574081969d2bdd19e1756302d843fdbf936968a72de62eb24d66db43efc0c",
+        "skills/security/variant-analysis/resources/codeql/go.ql": "d3fa419af29bb15bf81510c54bc1ce0cf55f5b7adbdbf79cc2c8cd922d2365fb",
+        "skills/security/variant-analysis/resources/codeql/java.ql": "ee4a92a5cbde67304d17a2c5fb739fe9acf1d39ebac9406e3d3a2c1cbbbb19c1",
+        "skills/security/variant-analysis/resources/codeql/javascript.ql": "b6ceaa3acb6ba6fa89903c14c8fd3aa7cf48316e6b2588dcacae51bb423b3526",
+        "skills/security/variant-analysis/resources/codeql/python.ql": "135ec55760e1e827065e34b002c6d954b4c4293d07233a93d7ff31d9d97528a9",
+        "skills/security/variant-analysis/resources/semgrep/cpp.yaml": "41f034c9a5967cc3b87bf5880243ed21f633017111489ee843dd5d002271b10a",
+        "skills/security/variant-analysis/resources/semgrep/go.yaml": "8a8257eb8e0a7150cb7dffa2b64813691fd560de24b0f85fa6640ec2bfc6595f",
+        "skills/security/variant-analysis/resources/semgrep/java.yaml": "5be3990b052bc9ce5e1aa203d1f3c93cb3cde7d46eba463c24c661fc6b342902",
+        "skills/security/variant-analysis/resources/semgrep/javascript.yaml": "2f97e3545fcac449820c2d058bcb9cc36822e238b6249efa3a5dcb4f5f576912",
+        "skills/security/variant-analysis/resources/semgrep/python.yaml": "c1ce15574569d45555d582707db030b226763d81b2d521d9e61d6067440948f2",
+        "skills/security/variant-analysis/resources/variant-report-template.md": "03333c762318a89dd819784a62695f7660713479a5009a15189314400836202f",
+        "skills/security/vector-forge/SKILL.md": "aca07e846ce5615031e9df0faca3537f4796f72997dcece53c9e389cf9d9d132",
+        "skills/security/vector-forge/agents/openai.yaml": "3ce59e0322a4dfe1ab64b9a0dc21e7f9be896cba2f9b1abe6dc5cf7a2f4a5173",
+        "skills/security/vector-forge/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05",
+        "skills/security/vector-forge/references/fault-simulation.md": "2e39c262e4cb1f7c8f9737e6ed02d45c3c69c556c7003b077a1aae24d06ea308",
+        "skills/security/vector-forge/references/lessons-learned.md": "bb92f8744839a60afb2d3c8a5ba3704f0db48fc2dbac019e00946e7f7359026f",
+        "skills/security/vector-forge/references/mutation-frameworks.md": "ae781ebc35637c0c46cdee448bc8bad98a7e3676007039c7ed1eca7f612e82d9",
+        "skills/security/vector-forge/references/report-template.md": "9fb727aa0f8f6dde0b4f533a0de0641848cdb0cffff2d47eba9c4335b6da9727",
+        "skills/security/vector-forge/references/vector-patterns.md": "641edba466cfdf0ae8cd93b5009b6861b1f6aaa593b84fd5abcd5b468a8b91b1",
+        "skills/security/wycheproof/SKILL.md": "d092dc70fbd0f86d1f755857bf57172a6593cae0bff5d052443fc60b8d675a33",
+        "skills/security/wycheproof/agents/openai.yaml": "9a16dde8738d5a6b378137ffa59e25e9319ff301eec51e8fbed1480043d54a81",
+        "skills/security/wycheproof/assets/trail-of-bits-mark.svg": "4bf74c789b38dcf6ad762c136b6832363d27ae19fbaa9a18ec18d66ecce6ca05"
+      }
     }
   }
 }
