@@ -151,10 +151,11 @@ Never commit tokens to `agentic`, project repositories, or Nix `/nix/store` eval
 - **Stdio secrets (`secretEnv = [ "VAR" ]`):** [`mcp/sync.py`](mcp/sync.py) generates a `0700` wrapper in `.agents/.mcp-wrappers/<name>` that injects only whitelisted variables before `exec` without storing secrets in harness JSON.
 - **HTTP auth (`bearerTokenEnvVar` / `secretHeaders`):** Claude Code (`${VAR}`), Codex (`bearer_token_env_var` / `env_http_headers`), OpenCode (`{env:VAR}`), and Gemini CLI (`${VAR}`) read env vars natively; for Antigravity, prefer OAuth when supported or let `sync.py` resolve headers into `0600` `.agents/mcp_config.json`.
 
-## Included Skills (`62`)
+## Included Skills (`63`)
 
 ### Authored Skills (`git/`, `design/`, & `security/`)
 - [`git-commit-branch`](skills/git/git-commit-branch/SKILL.md) — Decompose diffs into minimal, bisectable patches formatted with Conventional Commits v1.0.0 and ZeroMQ C4 discipline.
+- [`git-commit-master`](skills/git/git-commit-master/SKILL.md) — Run `git-commit-branch` on the active branch/worktree and fast-forward the primary worktree's `main`/`master` branch safely.
 - [`design-pipeline`](skills/design/design-pipeline/SKILL.md) — Generate, audit, and refactor UI/UX components with anti-slop constraints, markup pruning rules, heuristic QA (including vendored [`signs-of-ai-design.md`](skills/design/design-pipeline/references/signs-of-ai-design.md)), and visual asset cleanup pipelines.
 - [`design-macos-native-design`](skills/design/design-macos-native-design/SKILL.md) — Enforce Apple HIG and native macOS desktop conventions (window chrome, split views, menu bars/shortcuts, vibrancy, SF Symbols) and route to vendored HIG skills.
 - [`security-desktop-audit`](skills/security/security-desktop-audit/SKILL.md) — Audit desktop-specific OS, IPC, updater, and local privilege boundaries across Electron, Tauri, and native C++/Rust apps.
