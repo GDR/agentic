@@ -16,7 +16,7 @@ sys.path.insert(0, str(HOOK_PATH.parent))
 
 import commit_skill_gate  # noqa: E402
 
-SKILL_PATH = "/home/u/Workspaces/gdr/agentic/skills/git/git-atomic-conventional-c4-commits/SKILL.md"
+SKILL_PATH = "/home/u/Workspaces/gdr/agentic/skills/git/git-commit-branch/SKILL.md"
 
 
 class CommandDetectionTests(unittest.TestCase):
@@ -117,7 +117,7 @@ class HookExecutionTests(unittest.TestCase):
                 self.assertEqual(proc.returncode, 0)
                 data = json.loads(proc.stdout)
                 self.assertEqual(data["decision"], "deny")
-                self.assertIn("git-atomic-conventional-c4-commits/SKILL.md", data["reason"])
+                self.assertIn("git-commit-branch/SKILL.md", data["reason"])
 
     def test_antigravity_allows_after_protojson_read_file(self) -> None:
         transcript = self._write_transcript(
@@ -194,7 +194,7 @@ class HookExecutionTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 0)
         data = json.loads(proc.stdout)
         self.assertEqual(data["hookSpecificOutput"]["permissionDecision"], "deny")
-        self.assertIn("git-atomic-conventional-c4-commits", data["hookSpecificOutput"]["permissionDecisionReason"])
+        self.assertIn("git-commit-branch", data["hookSpecificOutput"]["permissionDecisionReason"])
 
     def test_claude_allows_read_skill_and_slash_command(self) -> None:
         cases = [
@@ -205,7 +205,7 @@ class HookExecutionTests(unittest.TestCase):
                         {
                             "type": "tool_use",
                             "name": "Read",
-                            "input": {"file_path": "/home/u/.claude/skills/git-atomic-conventional-c4-commits/SKILL.md"},
+                            "input": {"file_path": "/home/u/.claude/skills/git-commit-branch/SKILL.md"},
                         }
                     ]
                 },
@@ -217,7 +217,7 @@ class HookExecutionTests(unittest.TestCase):
                         {
                             "type": "tool_use",
                             "name": "Skill",
-                            "input": {"skill": "git-atomic-conventional-c4-commits"},
+                            "input": {"skill": "git-commit-branch"},
                         }
                     ]
                 },
@@ -229,7 +229,7 @@ class HookExecutionTests(unittest.TestCase):
                         {
                             "type": "tool_use",
                             "name": "Skill",
-                            "input": {"skill": "agentic:git-atomic-conventional-c4-commits"},
+                            "input": {"skill": "agentic:git-commit-branch"},
                         }
                     ]
                 },
@@ -237,7 +237,7 @@ class HookExecutionTests(unittest.TestCase):
             {
                 "type": "user",
                 "message": {
-                    "content": "<command-name>/git-atomic-conventional-c4-commits</command-name>",
+                    "content": "<command-name>/git-commit-branch</command-name>",
                 },
             },
         ]

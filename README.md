@@ -97,7 +97,7 @@ Third-party skills and rules are never pulled blindly from floating branches at 
 
 ## Hooks & Home Manager Module
 
-[`hooks/commit_skill_gate.py`](hooks/commit_skill_gate.py) is a `PreToolUse` gate for Antigravity (`run_command`) and Claude Code (`Bash`) that blocks `git commit` until `git-atomic-conventional-c4-commits/SKILL.md` has been read or loaded in the active conversation transcript.
+[`hooks/commit_skill_gate.py`](hooks/commit_skill_gate.py) is a `PreToolUse` gate for Antigravity (`run_command`) and Claude Code (`Bash`) that blocks `git commit` until `git-commit-branch/SKILL.md` has been read or loaded in the active conversation transcript.
 
 The flake exports:
 - `lib.layout`: Auto-discovered `skillCategories`, `watchSubpaths`, `fanout`, and `links` describing this repository's directory layout.
@@ -154,7 +154,7 @@ Never commit tokens to `agentic`, project repositories, or Nix `/nix/store` eval
 ## Included Skills (`62`)
 
 ### Authored Skills (`git/`, `design/`, & `security/`)
-- [`git-atomic-conventional-c4-commits`](skills/git/git-atomic-conventional-c4-commits/SKILL.md) — Decompose diffs into minimal, bisectable patches formatted with Conventional Commits v1.0.0 and ZeroMQ C4 discipline.
+- [`git-commit-branch`](skills/git/git-commit-branch/SKILL.md) — Decompose diffs into minimal, bisectable patches formatted with Conventional Commits v1.0.0 and ZeroMQ C4 discipline.
 - [`design-pipeline`](skills/design/design-pipeline/SKILL.md) — Generate, audit, and refactor UI/UX components with anti-slop constraints, markup pruning rules, heuristic QA (including vendored [`signs-of-ai-design.md`](skills/design/design-pipeline/references/signs-of-ai-design.md)), and visual asset cleanup pipelines.
 - [`design-macos-native-design`](skills/design/design-macos-native-design/SKILL.md) — Enforce Apple HIG and native macOS desktop conventions (window chrome, split views, menu bars/shortcuts, vibrancy, SF Symbols) and route to vendored HIG skills.
 - [`security-desktop-audit`](skills/security/security-desktop-audit/SKILL.md) — Audit desktop-specific OS, IPC, updater, and local privilege boundaries across Electron, Tauri, and native C++/Rust apps.

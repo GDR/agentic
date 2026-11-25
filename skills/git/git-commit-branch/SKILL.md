@@ -1,5 +1,5 @@
 ---
-name: git-atomic-conventional-c4-commits
+name: git-commit-branch
 description: >-
   Decompose git status and diffs into minimal, bisectable atomic commits
   combining Conventional Commits (v1.0.0) semantic types with ZeroMQ C4
