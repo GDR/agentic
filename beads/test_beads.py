@@ -24,6 +24,7 @@ class BeadsSyncTests(unittest.TestCase):
             root = Path(tmp) / "repo"
             root.mkdir()
             rule_src = Path(__file__).resolve().parent / "rule.md"
+            skills_src = Path(__file__).resolve().parent.parent / "skills" / "beads"
 
             subprocess.run(["git", "init", "-q"], cwd=str(root), check=True)
             subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=str(root), check=True)
@@ -32,24 +33,29 @@ class BeadsSyncTests(unittest.TestCase):
             subprocess.run(["git", "add", "README.md"], cwd=str(root), check=True)
             subprocess.run(["git", "commit", "-q", "-m", "init"], cwd=str(root), check=True)
 
-            sync.sync_project(root, rule_src)
+            sync.sync_project(root, rule_src, skills_src=skills_src)
             dest = root / ".agents" / "rules" / "beads.md"
             self.assertEqual(dest.read_text(encoding="utf-8"), rule_src.read_text(encoding="utf-8"))
+            self.assertTrue((root / ".agents" / "skills" / "beads-triage" / "SKILL.md").is_file())
+            self.assertTrue((root / ".agents" / "skills" / "beads-work" / "SKILL.md").is_file())
 
             exclude_file = root / ".git" / "info" / "exclude"
             exclude_text = exclude_file.read_text(encoding="utf-8")
             self.assertIn("# BEGIN agentic-beads", exclude_text)
             self.assertIn("/.agents/rules/beads.md", exclude_text)
+            self.assertIn("/.agents/skills/beads-triage/", exclude_text)
+            self.assertIn("/.agents/skills/beads-work/", exclude_text)
 
             # Idempotent second run
-            sync.sync_project(root, rule_src)
+            sync.sync_project(root, rule_src, skills_src=skills_src)
             self.assertEqual(exclude_file.read_text(encoding="utf-8"), exclude_text)
 
             # Linked worktree updates common git exclude
             wt = Path(tmp) / "wt"
             subprocess.run(["git", "worktree", "add", "-q", "-b", "feat", str(wt)], cwd=str(root), check=True)
-            sync.sync_project(wt, rule_src)
+            sync.sync_project(wt, rule_src, skills_src=skills_src)
             self.assertTrue((wt / ".agents" / "rules" / "beads.md").is_file())
+            self.assertTrue((wt / ".agents" / "skills" / "beads-work" / "SKILL.md").is_file())
             self.assertEqual(exclude_file.read_text(encoding="utf-8"), exclude_text)
 
     def test_refuses_symlink_destination(self) -> None:

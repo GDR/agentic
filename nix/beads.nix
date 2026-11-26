@@ -3,6 +3,7 @@ let
   uiScript = ../beads/ui.py;
   syncScript = ../beads/sync.py;
   defaultRuleFile = ../beads/rule.md;
+  defaultSkillsDir = ../skills/beads;
 
   mkBeadsUi =
     {
@@ -25,7 +26,9 @@ let
         beadsPackage = package;
       },
       ruleFile ? defaultRuleFile,
+      skillsDir ? defaultSkillsDir,
       syncRule ? true,
+      syncSkills ? true,
       excludeGit ? true,
       autoInit ? false,
       defaultPort ? 7474,
@@ -34,6 +37,7 @@ let
       python = lib.getExe pkgs.python3;
       syncFlags =
         lib.optional (!syncRule) "--no-rule"
+        ++ lib.optional (!syncSkills) "--no-skills"
         ++ lib.optional (!excludeGit) "--no-exclude"
         ++ lib.optional autoInit "--auto-init";
       shellHook = ''
@@ -41,6 +45,7 @@ let
           ${lib.escapeShellArg python} -B ${lib.escapeShellArg "${syncScript}"} \
             --root "$PWD" \
             --rule ${lib.escapeShellArg "${ruleFile}"} \
+            --skills-dir ${lib.escapeShellArg "${skillsDir}"} \
             ${lib.escapeShellArgs syncFlags}
         fi
       '';
@@ -50,7 +55,12 @@ let
         package
         uiPackage
       ];
-      inherit shellHook uiPackage ruleFile;
+      inherit
+        shellHook
+        uiPackage
+        ruleFile
+        skillsDir
+        ;
     };
 in
 {

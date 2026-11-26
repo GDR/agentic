@@ -66,11 +66,33 @@ def _update_git_exclude(root: Path, entries: list[str]) -> None:
         exclude_path.write_text(new_text, encoding="utf-8")
 
 
+def _sync_skill_dir(src_dir: Path, dest_dir: Path) -> bool:
+    if dest_dir.is_symlink():
+        print(f"agentic-beads warning: refusing to overwrite symlink {dest_dir}", file=sys.stderr)
+        return False
+    for src_file in sorted(src_dir.rglob("*")):
+        if not src_file.is_file():
+            continue
+        rel = src_file.relative_to(src_dir)
+        dst_file = dest_dir / rel
+        if dst_file.is_symlink():
+            print(f"agentic-beads warning: refusing to overwrite symlink {dst_file}", file=sys.stderr)
+            continue
+        dst_file.parent.mkdir(parents=True, exist_ok=True)
+        desired = src_file.read_bytes()
+        current = dst_file.read_bytes() if dst_file.exists() else None
+        if current != desired:
+            dst_file.write_bytes(desired)
+    return True
+
+
 def sync_project(
     root: Path,
     rule_src: Path,
     *,
+    skills_src: Path | None = None,
     sync_rule: bool = True,
+    sync_skills: bool = True,
     exclude_git: bool = True,
     auto_init: bool = False,
 ) -> None:
@@ -88,6 +110,14 @@ def sync_project(
             if current != desired:
                 dest.write_text(desired, encoding="utf-8")
             excluded.append("/.agents/rules/beads.md")
+
+    if sync_skills and skills_src is not None and skills_src.is_dir():
+        for entry in sorted(skills_src.iterdir(), key=lambda p: p.name):
+            if not entry.is_dir() or not (entry / "SKILL.md").is_file():
+                continue
+            dest_skill = root / ".agents" / "skills" / entry.name
+            if _sync_skill_dir(entry, dest_skill):
+                excluded.append(f"/.agents/skills/{entry.name}/")
 
     if exclude_git:
         _update_git_exclude(root, excluded)
@@ -114,10 +144,12 @@ def sync_project(
 
 
 def main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description="Sync embeddable Beads rule into a project")
+    parser = argparse.ArgumentParser(description="Sync embeddable Beads rule and skills into a project")
     parser.add_argument("--root", default=".", help="Consumer project root")
     parser.add_argument("--rule", required=True, help="Source path to beads rule.md")
+    parser.add_argument("--skills-dir", default="", help="Source directory containing beads skills")
     parser.add_argument("--no-rule", action="store_true", help="Skip syncing .agents/rules/beads.md")
+    parser.add_argument("--no-skills", action="store_true", help="Skip syncing .agents/skills/beads-*")
     parser.add_argument("--no-exclude", action="store_true", help="Skip updating .git/info/exclude")
     parser.add_argument("--auto-init", action="store_true", help="Initialize .beads/ if missing")
     args = parser.parse_args(argv)
@@ -128,7 +160,9 @@ def main(argv: list[str]) -> int:
     sync_project(
         Path(args.root),
         Path(args.rule),
+        skills_src=Path(args.skills_dir) if args.skills_dir else None,
         sync_rule=not args.no_rule,
+        sync_skills=not args.no_skills,
         exclude_git=not args.no_exclude,
         auto_init=args.auto_init,
     )

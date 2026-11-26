@@ -213,7 +213,7 @@ Never commit tokens to `agentic`, project repositories, or Nix `/nix/store` eval
 [`nix/beads.nix`](nix/beads.nix) exports `lib.mkBeads` and `packages.<system>.beads-ui`:
 
 - **`packages`:** Exposes `bd` (`pkgs.beads`) and `beads-ui` (zero-dependency local Kanban + SVG dependency-graph viewer in [`beads/ui.py`](beads/ui.py)) on `PATH`.
-- **`shellHook`:** Runs [`beads/sync.py`](beads/sync.py) to sync [`beads/rule.md`](beads/rule.md) into `.agents/rules/beads.md`, add it to the common `.git/info/exclude`, and optionally initialize `.beads/` when `autoInit = true`.
+- **`shellHook`:** Runs [`beads/sync.py`](beads/sync.py) to sync [`beads/rule.md`](beads/rule.md) into `.agents/rules/beads.md` and `skills/beads/*` into `.agents/skills/`, add them to the common `.git/info/exclude`, and optionally initialize `.beads/` when `autoInit = true`.
 - **Standalone viewer:** Run `nix run github:GDR/agentic#beads-ui` in any repository with `.beads/`.
 
 ## Included Skills (`65`)
