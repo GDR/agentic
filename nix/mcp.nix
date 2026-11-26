@@ -39,6 +39,19 @@ let
         };
         packages = lib.optional (package != null) package;
       };
+
+    rea =
+      {
+        pkgs,
+        package ? pkgs.callPackage ./rea.nix { },
+        env ? { },
+      }:
+      {
+        command = lib.getExe package;
+        args = [ "mcp" ];
+        packages = [ package ];
+      }
+      // lib.optionalAttrs (env != { }) { inherit env; };
   };
 
   syncScript = ../mcp/sync.py;
