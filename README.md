@@ -216,9 +216,10 @@ Never commit tokens to `agentic`, project repositories, or Nix `/nix/store` eval
 - **`shellHook`:** Runs [`beads/sync.py`](beads/sync.py) to sync [`beads/rule.md`](beads/rule.md) into `.agents/rules/beads.md` and `skills/beads/*` into `.agents/skills/`, add them to the common `.git/info/exclude`, and optionally initialize `.beads/` when `autoInit = true`.
 - **Standalone viewer:** Run `nix run github:GDR/agentic#beads-ui` in any repository with `.beads/`.
 
-## Included Skills (`65`)
+## Included Skills (`66`)
 
 ### Authored Skills (`beads/`, `git/`, `design/`, & `security/`)
+- [`beads-plan`](skills/beads/beads-plan/SKILL.md) — Convert an implementation plan, RFC, or design doc into a Beads epic and wave-ordered task DAG with `--acceptance`, bidirectional cross-links against existing beads, and `bd dep cycles` / `bd graph --open` verification.
 - [`beads-triage`](skills/beads/beads-triage/SKILL.md) — Convert a brain-dump, notes file, or scout report into deduplicated Beads epics/tasks with priorities and `bd dep add` blockers.
 - [`beads-work`](skills/beads/beads-work/SKILL.md) — Pick the highest-priority unblocked `bd ready` bead, atomically claim it, implement & verify, file follow-ups, and close it.
 - [`git-commit-branch`](skills/git/git-commit-branch/SKILL.md) — Decompose diffs into minimal, bisectable patches formatted with Conventional Commits v1.0.0 and ZeroMQ C4 discipline.

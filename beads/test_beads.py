@@ -36,6 +36,7 @@ class BeadsSyncTests(unittest.TestCase):
             sync.sync_project(root, rule_src, skills_src=skills_src)
             dest = root / ".agents" / "rules" / "beads.md"
             self.assertEqual(dest.read_text(encoding="utf-8"), rule_src.read_text(encoding="utf-8"))
+            self.assertTrue((root / ".agents" / "skills" / "beads-plan" / "SKILL.md").is_file())
             self.assertTrue((root / ".agents" / "skills" / "beads-triage" / "SKILL.md").is_file())
             self.assertTrue((root / ".agents" / "skills" / "beads-work" / "SKILL.md").is_file())
 
@@ -43,6 +44,7 @@ class BeadsSyncTests(unittest.TestCase):
             exclude_text = exclude_file.read_text(encoding="utf-8")
             self.assertIn("# BEGIN agentic-beads", exclude_text)
             self.assertIn("/.agents/rules/beads.md", exclude_text)
+            self.assertIn("/.agents/skills/beads-plan/", exclude_text)
             self.assertIn("/.agents/skills/beads-triage/", exclude_text)
             self.assertIn("/.agents/skills/beads-work/", exclude_text)
 
