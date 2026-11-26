@@ -46,6 +46,7 @@
           '';
           rea = pkgs.callPackage ./nix/rea.nix { };
           beads-ui = beadsLib.mkBeadsUi { inherit pkgs; };
+          beadstui = pkgs.callPackage ./nix/beadstui.nix { };
         }
       );
 

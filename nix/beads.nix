@@ -25,6 +25,7 @@ let
         inherit pkgs defaultPort;
         beadsPackage = package;
       },
+      tuiPackage ? pkgs.callPackage ./beadstui.nix { },
       ruleFile ? defaultRuleFile,
       skillsDir ? defaultSkillsDir,
       syncRule ? true,
@@ -54,10 +55,12 @@ let
       packages = [
         package
         uiPackage
-      ];
+      ]
+      ++ lib.optional (tuiPackage != null) tuiPackage;
       inherit
         shellHook
         uiPackage
+        tuiPackage
         ruleFile
         skillsDir
         ;
