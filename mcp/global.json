@@ -2,6 +2,15 @@
   "mcpServers": {
     "context7": {
       "url": "https://mcp.context7.com/mcp"
+    },
+    "rea": {
+      "command": "rea",
+      "args": [
+        "mcp"
+      ],
+      "env": {
+        "REA_MCP_TOOL_CATALOG_PROFILE": "hot-cold"
+      }
     }
   }
 }
