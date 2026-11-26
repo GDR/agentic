@@ -40,6 +40,7 @@
             mkdir -p "$out"
             cp -a ${./skills}/. "$out/"
           '';
+          rea = pkgs.callPackage ./nix/rea.nix { };
         }
       );
 
