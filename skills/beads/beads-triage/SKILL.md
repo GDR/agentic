@@ -35,20 +35,25 @@ Turn unstructured notes, brain-dumps, or scout reports into a clean, deduplicate
    T2=$(bd create "<task 2>" -t bug -p 1 --parent "$EPIC" -d "<repro and fix>" --json | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])")
    ```
 
-4. **Wire dependencies**:
+4. **Wire dependencies (including existing beads)**:
    - Blocking dependency (`T2` cannot start until `T1` closes):
      ```bash
      bd dep add "$T2" "$T1"
      ```
-   - Non-blocking provenance or cross-reference:
+   - **Cross-link against existing active beads** (both directions):
+     - Existing open/`in_progress` bead blocks new bead: `bd dep add <new-id> <existing-id>`
+     - New bead blocks existing open bead: `bd dep add <existing-id> <new-id>`
+     - Overlapping subsystem/files: `bd dep relate <new-id> <existing-id>`
+   - Non-blocking provenance or validation:
      ```bash
      bd dep add "$T2" "$T1" -t discovered-from
-     bd dep add "$T2" "$T1" -t related
+     bd dep add "$T2" "$T1" -t validates
      ```
 
-5. **Export and report**:
+5. **Verify, export, and report**:
    ```bash
+   bd dep cycles
    bd export -o .beads/issues.jsonl
    bd ready
    ```
-   Report created/updated IDs, skipped duplicates, wired dependencies, and the resulting `bd ready` queue.
+   Report created/updated IDs, skipped duplicates, wired dependencies (including cross-links to existing beads), and the resulting `bd ready` queue.
