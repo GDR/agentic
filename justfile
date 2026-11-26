@@ -19,6 +19,10 @@ test-mcp:
 	python3 -B -m unittest discover -s mcp -p 'test_*.py' -v
 	python3 -B mcp/sync.py --validate-global mcp/global.json
 
+[doc('Run embeddable Beads sync and Web GUI unit tests')]
+test-beads:
+	python3 -B -m unittest discover -s beads -p 'test_*.py' -v
+
 [doc('Fetch pinned upstream sources and verify recorded hashes')]
 [positional-arguments]
 sync-upstream *names:
@@ -29,8 +33,8 @@ sync-upstream *names:
 bump-upstream *names:
 	python3 scripts/upstream.py bump "$@"
 
-[doc('Run skill validation, upstream verification, hook tests, MCP tests, and Nix flake checks')]
-check: validate verify-upstream test-hooks test-mcp
+[doc('Run skill validation, upstream verification, hook/MCP/Beads tests, and Nix flake checks')]
+check: validate verify-upstream test-hooks test-mcp test-beads
 	nix flake check
 
 [doc('Scaffold a new skill under skills/<name> or skills/<category>/<name>')]

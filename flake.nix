@@ -15,10 +15,14 @@
       forAllSystems = nixpkgs.lib.genAttrs systems;
       pkgsFor = system: import nixpkgs { inherit system; };
       mcpLib = import ./nix/mcp.nix { lib = nixpkgs.lib; };
+      beadsLib = import ./nix/beads.nix { lib = nixpkgs.lib; };
       layout = import ./nix/layout.nix { lib = nixpkgs.lib; };
-      agenticLib = mcpLib // {
-        inherit layout;
-      };
+      agenticLib =
+        mcpLib
+        // beadsLib
+        // {
+          inherit layout;
+        };
     in
     {
       lib = agenticLib;
@@ -41,6 +45,7 @@
             cp -a ${./skills}/. "$out/"
           '';
           rea = pkgs.callPackage ./nix/rea.nix { };
+          beads-ui = beadsLib.mkBeadsUi { inherit pkgs; };
         }
       );
 
@@ -88,6 +93,19 @@
               ''
                 python3 -B -m unittest discover -s ${./.}/mcp -p 'test_*.py' -v
                 python3 -B ${./.}/mcp/sync.py --validate-global ${./.}/mcp/global.json
+                touch "$out"
+              '';
+
+          test-beads =
+            pkgs.runCommand "test-beads"
+              {
+                nativeBuildInputs = [
+                  pkgs.python3
+                  pkgs.git
+                ];
+              }
+              ''
+                python3 -B -m unittest discover -s ${./.}/beads -p 'test_*.py' -v
                 touch "$out"
               '';
 
@@ -166,6 +184,7 @@
             in
             assert
               layout.skillCategories == [
+                "beads"
                 "design"
                 "git"
                 "security"
@@ -174,6 +193,7 @@
               layout.watchSubpaths == [
                 "rules"
                 "skills"
+                "skills/beads"
                 "skills/design"
                 "skills/git"
                 "skills/security"
@@ -185,6 +205,7 @@
             assert
               builtins.fromJSON defaultCfg.home.file.".gemini/config/skills.json".text == {
                 entries = [
+                  { path = "/home/tester/Workspaces/gdr/agentic/skills/beads"; }
                   { path = "/home/tester/Workspaces/gdr/agentic/skills/design"; }
                   { path = "/home/tester/Workspaces/gdr/agentic/skills/git"; }
                   { path = "/home/tester/Workspaces/gdr/agentic/skills/security"; }
@@ -193,6 +214,7 @@
             assert
               builtins.fromJSON absCfg.home.file.".gemini/config/skills.json".text == {
                 entries = [
+                  { path = "/srv/agentic/skills/beads"; }
                   { path = "/srv/agentic/skills/design"; }
                   { path = "/srv/agentic/skills/git"; }
                   { path = "/srv/agentic/skills/security"; }
@@ -201,6 +223,7 @@
             assert
               builtins.fromJSON tildeCfg.home.file.".gemini/config/skills.json".text == {
                 entries = [
+                  { path = "/home/tester/custom/agentic/skills/beads"; }
                   { path = "/home/tester/custom/agentic/skills/design"; }
                   { path = "/home/tester/custom/agentic/skills/git"; }
                   { path = "/home/tester/custom/agentic/skills/security"; }
