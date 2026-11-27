@@ -28,30 +28,65 @@ let
 
     ghidra =
       {
+        pkgs ? null,
         url ? "http://127.0.0.1:8089",
         package ? null,
+        withGhidra ? (pkgs != null),
+        ghidra ? null,
+        extraExtensions ? (_: [ ]),
       }:
+      let
+        resolvedPackage =
+          if package != null then
+            package
+          else if pkgs != null then
+            pkgs.callPackage ./ghidra-mcp-bridge.nix { }
+          else
+            null;
+        baseGhidra = if ghidra != null then ghidra else pkgs.ghidra;
+        ghidraPkg =
+          if withGhidra then
+            assert pkgs != null;
+            let
+              extension = pkgs.callPackage ./ghidra-mcp-extension.nix { };
+            in
+            baseGhidra.withExtensions (p: [ extension ] ++ extraExtensions p)
+          else
+            null;
+      in
       {
-        command = if package != null then lib.getExe package else "bridge-mcp-ghidra";
+        command = if resolvedPackage != null then lib.getExe resolvedPackage else "bridge-mcp-ghidra";
         args = [ ];
         env = {
           GHIDRA_MCP_URL = url;
         };
-        packages = lib.optional (package != null) package;
+        packages =
+          lib.optional (resolvedPackage != null) resolvedPackage
+          ++ lib.optional (ghidraPkg != null) ghidraPkg;
       };
 
     rea =
       {
         pkgs,
         package ? pkgs.callPackage ./rea.nix { },
+        withGhidra ? true,
+        ghidra ? pkgs.ghidra,
+        jdk ? pkgs.jdk25,
         env ? { },
       }:
+      let
+        defaultEnv = lib.optionalAttrs withGhidra {
+          GHIDRA_INSTALL_DIR = "${ghidra}/lib/ghidra";
+          JAVA_HOME = "${jdk.home}";
+        };
+        mergedEnv = defaultEnv // env;
+      in
       {
         command = lib.getExe package;
         args = [ "mcp" ];
-        packages = [ package ];
+        packages = [ package ] ++ lib.optional withGhidra jdk;
       }
-      // lib.optionalAttrs (env != { }) { inherit env; };
+      // lib.optionalAttrs (mergedEnv != { }) { env = mergedEnv; };
   };
 
   syncScript = ../mcp/sync.py;
