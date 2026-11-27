@@ -45,6 +45,16 @@
             cp -a ${./skills}/. "$out/"
           '';
           rea = pkgs.callPackage ./nix/rea.nix { };
+          ghidra-mcp-extension = pkgs.callPackage ./nix/ghidra-mcp-extension.nix { };
+          ghidra-mcp-bridge = pkgs.callPackage ./nix/ghidra-mcp-bridge.nix { };
+          ghidra-mcp = pkgs.ghidra.withExtensions (_: [
+            (pkgs.callPackage ./nix/ghidra-mcp-extension.nix { })
+          ]);
+          ghidra-mcp-extension = pkgs.callPackage ./nix/ghidra-mcp-extension.nix { };
+          ghidra-mcp-bridge = pkgs.callPackage ./nix/ghidra-mcp-bridge.nix { };
+          ghidra-mcp = pkgs.ghidra.withExtensions (
+            _: [ (pkgs.callPackage ./nix/ghidra-mcp-extension.nix { }) ]
+          );
           beads-ui = beadsLib.mkBeadsUi { inherit pkgs; };
           beadstui = pkgs.callPackage ./nix/beadstui.nix { };
         }
