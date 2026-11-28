@@ -28,11 +28,23 @@ Turn unstructured notes, brain-dumps, or scout reports into a clean, deduplicate
      - `-p 3`: Low / nice-to-have
      - `-p 4`: Backlog
 
-3. **Create epics and tasks**:
+3. **Create epics and tasks (in `backlog` with readable slug IDs)**:
+   - Always pass `-s backlog` (hidden from `bd ready` until user-vetted/promoted to `open`), unless the user explicitly asks to triage directly into `open`.
+   - Always pass an explicit readable `--id` — never rely on auto-generated 3-char hashes or numeric suffixes:
+     - Epic: `--id <prefix>-<topic>` (1–2 lowercase kebab words).
+     - Child tasks: `--id <epic-id>.<short-slug>` (2–3 lowercase kebab words, total ID <= 35 chars) attached via `--deps "parent-child:<epic-id>"` (`bd create` rejects `--id` combined with `--parent`).
+     - Standalone tasks: `--id <prefix>-<subsystem>-<short-slug>`.
    ```bash
-   EPIC=$(bd create "<epic title>" -t epic -p 1 -d "<scope>" --json | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])")
-   T1=$(bd create "<task 1>" -t task -p 1 --parent "$EPIC" -d "<acceptance criteria>" --json | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])")
-   T2=$(bd create "<task 2>" -t bug -p 1 --parent "$EPIC" -d "<repro and fix>" --json | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])")
+   EPIC="<prefix>-<topic>"
+   bd create "<epic title>" --id "$EPIC" -t epic -p 1 -s backlog -d "<scope>"
+
+   T1="${EPIC}.<short-slug>"
+   bd create "<task 1>" --id "$T1" -t task -p 1 -s backlog \
+     --deps "parent-child:$EPIC" -d "<acceptance criteria>"
+
+   T2="${EPIC}.<short-slug-2>"
+   bd create "<task 2>" --id "$T2" -t bug -p 1 -s backlog \
+     --deps "parent-child:$EPIC" -d "<repro and fix>"
    ```
 
 4. **Wire dependencies (including existing beads)**:

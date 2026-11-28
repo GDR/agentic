@@ -134,13 +134,17 @@ def sync_project(
             msg = (init_res.stderr or init_res.stdout).strip()
             print(f"agentic-beads warning: bd init failed: {msg}", file=sys.stderr)
         else:
-            subprocess.run(
-                ["bd", "config", "set", "export.auto", "true"],
-                cwd=str(root),
-                capture_output=True,
-                text=True,
-                check=False,
-            )
+            for key, val in (
+                ("export.auto", "true"),
+                ("status.custom", "backlog:frozen,review:wip"),
+            ):
+                subprocess.run(
+                    ["bd", "config", "set", key, val],
+                    cwd=str(root),
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
 
 
 def main(argv: list[str]) -> int:

@@ -43,22 +43,27 @@ Execute one unblocked Beads task end-to-end with safe multi-worktree claiming an
    - Run the repository's build/test/lint checks (e.g., `just check`) and confirm they pass.
 
 5. **File discovered follow-ups**:
-   Never leave newly discovered bugs, regressions, or tech debt only in chat:
+   Never leave newly discovered bugs, regressions, or tech debt only in chat. Use readable slug IDs (`--id`) and default to `-s backlog` (unless it immediately blocks `<id>`):
    ```bash
-   NEW_ID=$(bd create "<title>" -t <bug|task|feature> -p <0..4> -d "<details>" --json | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])")
-   bd dep add "$NEW_ID" <id> -t discovered-from
+   NEW_ID="<prefix>-<subsystem>-<short-slug>"
+   bd create "<title>" --id "$NEW_ID" -t <bug|task|feature> -p <0..4> -s backlog \
+     --deps "discovered-from:<id>" -d "<details>"
    ```
-   If the discovered issue blocks closing the current bead, link it with `bd dep add <id> "$NEW_ID"` and mark `<id>` blocked (`bd update <id> --status blocked`) instead of closing.
+   If the discovered issue blocks closing the current bead, link it with `bd dep add <id> "$NEW_ID"` and mark `<id>` blocked (`bd update <id> --status blocked`) instead of moving to `review`.
 
-6. **Commit, review handoff, and close (configurable)**:
+6. **Commit, review handoff, and close**:
+   Every git commit implementing or advancing a bead **must** include a `Bead: <id>` trailer at the bottom of the commit message (separated from the body by a blank line; repeat `Bead:` if a commit covers multiple beads).
    Follow the user's explicit preference first (`no-commit`, `commit`, `land on main`). Otherwise apply the default for the current workspace:
    - **Dedicated bead worktree or feature branch (`bead/<id>`):**
-     1. Read/load `git-commit-branch/SKILL.md` and commit the verified code changes to `bead/<id>`. Do **not** export or commit `.beads/issues.jsonl` on parallel bead branches (all worktrees share the live Dolt database; committing JSONL on multiple branches causes merge conflicts).
-     2. Check whether `<id>` has downstream dependents (`bd show <id> --json`, check `dependent_count > 0`):
-        - **Has dependents and not yet merged to `main`:** Keep `<id>` `in_progress` and record `bd comment <id> "Ready for review on bead/<id> ($(git rev-parse --short HEAD))"` so downstream beads stay blocked until `<id>`'s code lands on `main`.
-        - **No dependents (or already landed on `main`):** Close with `bd close <id> --reason "$(git rev-parse --short HEAD): <concise summary>"`.
-     3. Never `git push` or merge into `main`/`master` unless explicitly instructed. When asked to land on `main`, use `git-commit-master`, then `bd close <id>` and `bd worktree remove <id>`.
+     1. Read/load `git-commit-branch/SKILL.md` and commit the verified code changes to `bead/<id>` with the `Bead: <id>` trailer. Do **not** export or commit `.beads/issues.jsonl` on parallel bead branches (all worktrees share the live Dolt database; committing JSONL on multiple branches causes merge conflicts).
+     2. Move `<id>` to `review` (hidden from `bd ready`, still blocks downstream dependents) and record a handoff comment:
+        ```bash
+        bd update <id> --status review
+        bd comment <id> "Ready for review on bead/<id> ($(git rev-parse --short HEAD))"
+        ```
+        Do **not** run `bd close <id>` automatically — the user closes `<id>` upon verifying and merging to `main`, which unblocks downstream waves.
+     3. Never `git push` or merge into `main`/`master` unless explicitly instructed. Only when explicitly asked to land on `main`: use `git-commit-master`, then `bd close <id> --reason "$(git rev-parse --short HEAD): <concise summary>"` and `bd worktree remove <id>`.
    - **Primary worktree on `main`/`master` (interactive single task):**
-     - Leave changes uncommitted for user review (`git diff`), and either `bd close <id> --reason "<concise summary>"` if the user wants it closed now or keep `in_progress` until committed. Refresh `.beads/issues.jsonl` (`bd export -o .beads/issues.jsonl`) only on `main` when desired.
+     - Leave changes uncommitted for user review (`git diff`), and set `bd update <id> --status review` (or `bd close <id> --reason "<concise summary>"` only if explicitly instructed). Refresh `.beads/issues.jsonl` (`bd export -o .beads/issues.jsonl`) only on `main` when desired.
 
    Report the bead ID and status, worktree/branch path (and `git diff main..bead/<id>` review command if applicable), verification scope, any newly filed follow-up beads, and the next `bd ready` item.
