@@ -18,6 +18,7 @@ Scale ceremony to blast radius: apply full rigor on multi-file/architectural wor
 - Anti-reward-hacking & verification: Run relevant build/test/lint checks and report exact scope verified (plus what could not be run). Prefer real data/fakes over mocks (mock external boundaries only). Never pass checks by weakening assertions, skipping tests, or adding lint/type suppressions (`nolint`, `# type: ignore`, `#[allow]`, `any`) without explicit approval.
 - Comments: Document non-obvious invariants and *why*, never *what*.
 - Commits: Before running `git commit`, always read and follow the `git-commit-branch` skill.
+- Missing CLI tools: When a binary is not on `PATH`, run `nrun <pkg> [args...]` (`nix-shell -p <pkg> --run "<pkg> [args...]"`) for ephemeral nixpkgs execution instead of failing or installing globally.
 
 ## Safety Boundaries (Reinforced by Harness Hooks)
 - Never discard pre-existing uncommitted user changes (`git reset --hard`, `git checkout --`, `git clean`), force-overwrite history, or execute irreversible, external, or privileged side effects (`git push`, `sudo`, prod/remote writes) without explicit instruction.
