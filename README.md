@@ -149,6 +149,7 @@ The flake exports:
           # beads = agentic.lib.mcp.beads { inherit pkgs; };
           # ghidra = agentic.lib.mcp.ghidra { url = "http://127.0.0.1:8089"; };
           # tracy = agentic.lib.mcp.tracy { }; # http://127.0.0.1:47380/mcp
+          # renderdoc = agentic.lib.mcp.renderdoc { inherit pkgs; modulePath = "/path/to/renderdoc/lib"; };
           # rea = agentic.lib.mcp.rea { inherit pkgs; };
         };
       };
@@ -230,6 +231,22 @@ Tracy's MCP server runs as a local Streamable HTTP server (default `http://127.0
    TRACY_CAPTURES_DIR=/path/to/captures ./extra/mcp/start_mcp.sh
    ```
    Override the port with `TRACY_MCP_PORT` (default `47380`) and pass the matching `url` to `agentic.lib.mcp.tracy { url = "http://127.0.0.1:<port>/mcp"; }`.
+
+### RenderDoc MCP (`Linkingooo/renderdoc-mcp`)
+
+Add `renderdoc` to your project's `flake.nix` (`lib.mkMcp`), pointing `modulePath` at the directory containing `renderdoc.so` / `renderdoc.pyd` (`RENDERDOC_MODULE_PATH`):
+
+```nix
+mcp = agentic.lib.mkMcp {
+  inherit pkgs;
+  servers = {
+    renderdoc = agentic.lib.mcp.renderdoc {
+      inherit pkgs;
+      modulePath = "${pkgs.renderdoc}/lib"; # or your custom RenderDoc build directory
+    };
+  };
+};
+```
 
 ## Embeddable Beads (`lib.mkBeads`)
 

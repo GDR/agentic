@@ -52,6 +52,7 @@
           ]);
           bd-board = pkgs.callPackage ./nix/bd-board.nix { };
           beads-mcp = pkgs.callPackage ./nix/beads-mcp.nix { };
+          renderdoc-mcp = pkgs.callPackage ./nix/renderdoc-mcp.nix { };
         }
       );
 

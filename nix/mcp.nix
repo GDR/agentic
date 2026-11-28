@@ -105,6 +105,34 @@ let
         inherit url;
       };
 
+    renderdoc =
+      {
+        pkgs ? null,
+        package ? null,
+        modulePath ? null,
+        env ? { },
+      }:
+      let
+        resolvedPackage =
+          if package != null then
+            package
+          else if pkgs != null then
+            pkgs.callPackage ./renderdoc-mcp.nix { }
+          else
+            null;
+        mergedEnv =
+          lib.optionalAttrs (modulePath != null) {
+            RENDERDOC_MODULE_PATH = modulePath;
+          }
+          // env;
+      in
+      {
+        command = if resolvedPackage != null then lib.getExe resolvedPackage else "renderdoc-mcp";
+        args = [ ];
+        packages = lib.optional (resolvedPackage != null) resolvedPackage;
+      }
+      // lib.optionalAttrs (mergedEnv != { }) { env = mergedEnv; };
+
     rea =
       {
         pkgs,
