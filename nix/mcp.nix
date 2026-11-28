@@ -97,6 +97,14 @@ let
           ++ lib.optional (ghidraPkg != null) ghidraPkg;
       };
 
+    tracy =
+      {
+        url ? "http://127.0.0.1:47380/mcp",
+      }:
+      {
+        inherit url;
+      };
+
     rea =
       {
         pkgs,

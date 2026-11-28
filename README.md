@@ -146,7 +146,9 @@ The flake exports:
         inherit pkgs;
         servers = {
           nixos = agentic.lib.mcp.nixos { inherit pkgs; };
+          # beads = agentic.lib.mcp.beads { inherit pkgs; };
           # ghidra = agentic.lib.mcp.ghidra { url = "http://127.0.0.1:8089"; };
+          # tracy = agentic.lib.mcp.tracy { }; # http://127.0.0.1:47380/mcp
           # rea = agentic.lib.mcp.rea { inherit pkgs; };
         };
       };
@@ -207,6 +209,27 @@ Never commit tokens to `agentic`, project repositories, or Nix `/nix/store` eval
 - **Precedence:** global file < project file < process environment
 - **Stdio secrets (`secretEnv = [ "VAR" ]`):** [`mcp/sync.py`](mcp/sync.py) generates a `0700` wrapper in `.agents/.mcp-wrappers/<name>` that injects only whitelisted variables before `exec` without storing secrets in harness JSON.
 - **HTTP auth (`bearerTokenEnvVar` / `secretHeaders`):** Claude Code (`${VAR}`), Codex (`bearer_token_env_var` / `env_http_headers`), OpenCode (`{env:VAR}`), and Gemini CLI (`${VAR}`) read env vars natively; for Antigravity, prefer OAuth when supported or let `sync.py` resolve headers into `0600` `.agents/mcp_config.json`.
+
+### Tracy MCP (`wolfpld/tracy/extra/mcp`)
+
+Tracy's MCP server runs as a local Streamable HTTP server (default `http://127.0.0.1:47380/mcp`).
+
+1. **Add it to your project's `flake.nix` (`lib.mkMcp`):**
+   ```nix
+   mcp = agentic.lib.mkMcp {
+     inherit pkgs;
+     servers = {
+       tracy = agentic.lib.mcp.tracy { }; # optional: url = "http://127.0.0.1:47380/mcp";
+     };
+   };
+   ```
+   Re-enter the devShell (`direnv allow` or `nix develop`) so `mcp/sync.py` writes the `tracy` entry into your harness MCP config.
+2. **Start the Tracy MCP server** (requires `TracyServerBindings` built from `wolfpld/tracy` and `mcp>=2.0.0,<3`):
+   ```bash
+   # From your wolfpld/tracy checkout (after building python bindings into build/python/Release):
+   TRACY_CAPTURES_DIR=/path/to/captures ./extra/mcp/start_mcp.sh
+   ```
+   Override the port with `TRACY_MCP_PORT` (default `47380`) and pass the matching `url` to `agentic.lib.mcp.tracy { url = "http://127.0.0.1:<port>/mcp"; }`.
 
 ## Embeddable Beads (`lib.mkBeads`)
 
