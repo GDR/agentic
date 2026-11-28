@@ -51,6 +51,7 @@
             (pkgs.callPackage ./nix/ghidra-mcp-extension.nix { })
           ]);
           bd-board = pkgs.callPackage ./nix/bd-board.nix { };
+          beads-mcp = pkgs.callPackage ./nix/beads-mcp.nix { };
         }
       );
 

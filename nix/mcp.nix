@@ -26,6 +26,38 @@ let
         packages = [ package ];
       };
 
+    beads =
+      {
+        pkgs ? null,
+        package ? null,
+        beadsPackage ? null,
+        env ? { },
+      }:
+      let
+        resolvedBeads =
+          if beadsPackage != null then
+            beadsPackage
+          else if pkgs != null then
+            pkgs.beads
+          else
+            null;
+        resolvedPackage =
+          if package != null then
+            package
+          else if pkgs != null then
+            pkgs.callPackage ./beads-mcp.nix { beads = resolvedBeads; }
+          else
+            null;
+      in
+      {
+        command = if resolvedPackage != null then lib.getExe resolvedPackage else "beads-mcp";
+        args = [ ];
+        packages =
+          lib.optional (resolvedPackage != null) resolvedPackage
+          ++ lib.optional (resolvedBeads != null) resolvedBeads;
+      }
+      // lib.optionalAttrs (env != { }) { inherit env; };
+
     ghidra =
       {
         pkgs ? null,
