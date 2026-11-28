@@ -212,9 +212,9 @@ Never commit tokens to `agentic`, project repositories, or Nix `/nix/store` eval
 
 [`nix/beads.nix`](nix/beads.nix) exports `lib.mkBeads`, `packages.<system>.beads-ui`, and `packages.<system>.beadstui`:
 
-- **`packages`:** Exposes `bd` (`pkgs.beads`), `bt` ([`beadstui`](nix/beadstui.nix) graph-aware TUI; set `tuiPackage = null` to omit), and `beads-ui` (zero-dependency local Kanban + SVG dependency-graph viewer in [`beads/ui.py`](beads/ui.py)) on `PATH`.
+- **`packages`:** Exposes `bd` (`pkgs.beads`) and `bd-board` ([`bd-board`](nix/bd-board.nix) local visual Kanban & multi-project dashboard; set `boardPackage = null` to omit) on `PATH`.
 - **`shellHook`:** Runs [`beads/sync.py`](beads/sync.py) to sync [`beads/rule.md`](beads/rule.md) into `.agents/rules/beads.md` and `skills/beads/*` into `.agents/skills/`, add them to the common `.git/info/exclude`, and optionally initialize `.beads/` when `autoInit = true`.
-- **Standalone viewers:** Run `nix run github:GDR/agentic#beadstui` (TUI `bt`) or `nix run github:GDR/agentic#beads-ui` (Web GUI) in any repository with `.beads/`.
+- **Standalone viewer:** Run `nix run github:GDR/agentic#bd-board` in any repository with `.beads/`.
 
 ## Included Skills (`67`)
 

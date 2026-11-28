@@ -50,8 +50,7 @@
           ghidra-mcp = pkgs.ghidra.withExtensions (_: [
             (pkgs.callPackage ./nix/ghidra-mcp-extension.nix { })
           ]);
-          beads-ui = beadsLib.mkBeadsUi { inherit pkgs; };
-          beadstui = pkgs.callPackage ./nix/beadstui.nix { };
+          bd-board = pkgs.callPackage ./nix/bd-board.nix { };
         }
       );
 

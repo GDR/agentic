@@ -1,21 +1,14 @@
 #!/usr/bin/env python3
-"""Unit tests for embeddable Beads sync helper and local Web GUI."""
+"""Unit tests for embeddable Beads sync helper."""
 
 from __future__ import annotations
 
-import json
-import os
 import subprocess
 import tempfile
-import threading
 import unittest
-import urllib.request
-from http.server import ThreadingHTTPServer
 from pathlib import Path
-from unittest import mock
 
 import sync
-import ui
 
 
 class BeadsSyncTests(unittest.TestCase):
@@ -77,55 +70,6 @@ class BeadsSyncTests(unittest.TestCase):
         rule_src = Path(__file__).resolve().parent / "rule.md"
         lines = rule_src.read_text(encoding="utf-8").splitlines()
         self.assertLess(len(lines), 25)
-
-
-class BeadsUiTests(unittest.TestCase):
-    def test_validate_issue_id(self) -> None:
-        self.assertEqual(ui.validate_issue_id("proj-a1b.2"), "proj-a1b.2")
-        for bad in ("", "../etc", "-flag", "id with space", "id;rm"):
-            with self.assertRaises(ValueError):
-                ui.validate_issue_id(bad)
-
-    def test_http_endpoints_with_mocked_bd(self) -> None:
-        sample_issues = [
-            {"id": "demo-1", "title": "Epic", "status": "open", "priority": 1, "issue_type": "epic"},
-            {
-                "id": "demo-1.1",
-                "title": "Task 1",
-                "status": "open",
-                "priority": 1,
-                "issue_type": "task",
-                "parent": "demo-1",
-            },
-        ]
-
-        def fake_run_bd(args: list[str], cwd: Path) -> object:
-            if args == ["list", "--all"]:
-                return sample_issues
-            if args == ["ready"]:
-                return sample_issues
-            return {"ok": True}
-
-        with tempfile.TemporaryDirectory() as tmp:
-            repo_root = Path(tmp)
-            (repo_root / ".beads").mkdir()
-            handler_cls = type("TestBeadsHandler", (ui.BeadsHandler,), {"repo_root": repo_root})
-            server = ThreadingHTTPServer(("127.0.0.1", 0), handler_cls)
-            port = server.server_address[1]
-            thread = threading.Thread(target=server.serve_forever, daemon=True)
-            thread.start()
-            try:
-                with mock.patch.object(ui, "run_bd", side_effect=fake_run_bd):
-                    html = urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=5).read().decode("utf-8")
-                    self.assertIn("Beads — Local Task Board", html)
-                    state = json.loads(
-                        urllib.request.urlopen(f"http://127.0.0.1:{port}/api/state", timeout=5).read().decode("utf-8")
-                    )
-                    self.assertEqual(len(state["issues"]), 2)
-                    self.assertEqual(len(state["ready"]), 2)
-            finally:
-                server.shutdown()
-                server.server_close()
 
 
 if __name__ == "__main__":
