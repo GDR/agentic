@@ -216,13 +216,14 @@ Never commit tokens to `agentic`, project repositories, or Nix `/nix/store` eval
 - **`shellHook`:** Runs [`beads/sync.py`](beads/sync.py) to sync [`beads/rule.md`](beads/rule.md) into `.agents/rules/beads.md` and `skills/beads/*` into `.agents/skills/`, add them to the common `.git/info/exclude`, and optionally initialize `.beads/` when `autoInit = true`.
 - **Standalone viewers:** Run `nix run github:GDR/agentic#beadstui` (TUI `bt`) or `nix run github:GDR/agentic#beads-ui` (Web GUI) in any repository with `.beads/`.
 
-## Included Skills (`66`)
+## Included Skills (`67`)
 
 ### Authored Skills (`beads/`, `git/`, `design/`, & `security/`)
 - [`beads-plan`](skills/beads/beads-plan/SKILL.md) — Convert an implementation plan, RFC, or design doc into a Beads epic and wave-ordered task DAG with `--acceptance`, bidirectional cross-links against existing beads, and `bd dep cycles` / `bd graph --open` verification.
 - [`beads-triage`](skills/beads/beads-triage/SKILL.md) — Convert a brain-dump, notes file, or scout report into deduplicated Beads epics/tasks with priorities and `bd dep add` blockers.
 - [`beads-work`](skills/beads/beads-work/SKILL.md) — Pick the highest-priority unblocked `bd ready` bead, atomically claim it, implement & verify, file follow-ups, and close it.
 - [`git-commit-branch`](skills/git/git-commit-branch/SKILL.md) — Decompose diffs into minimal, bisectable patches formatted with Conventional Commits v1.0.0 and ZeroMQ C4 discipline.
+- [`git-commit-worktree`](skills/git/git-commit-worktree/SKILL.md) — Guard that execution is in a linked worktree and run `git-commit-branch` on the worktree's branch without touching `main`/`master`.
 - [`git-commit-master`](skills/git/git-commit-master/SKILL.md) — Run `git-commit-branch` on the active branch/worktree and fast-forward the primary worktree's `main`/`master` branch safely.
 - [`design-pipeline`](skills/design/design-pipeline/SKILL.md) — Generate, audit, and refactor UI/UX components with anti-slop constraints, markup pruning rules, heuristic QA (including vendored [`signs-of-ai-design.md`](skills/design/design-pipeline/references/signs-of-ai-design.md)), and visual asset cleanup pipelines.
 - [`design-macos-native-design`](skills/design/design-macos-native-design/SKILL.md) — Enforce Apple HIG and native macOS desktop conventions (window chrome, split views, menu bars/shortcuts, vibrancy, SF Symbols) and route to vendored HIG skills.
